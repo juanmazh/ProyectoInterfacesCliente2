@@ -38,14 +38,14 @@ async function iniciarSesion() {
 
         <div class="px-5 ms-xl-4 text-center">
           <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-          <span class="h1 fw-bold mb-0">Iniciar Sesion</span>
+          <span class="h1 fw-bold mb-0">Logo</span>
         </div>
 
         <div class="d-flex align-items-center h-custom-3 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5 justify-content-center">
 
           <form style="width: 23rem;">
 
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Entrar</h3>
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Registrate</h3>
 
             <div data-mdb-input-init class="form-outline mb-4">
               <input type="email" id="form2Example18" class="form-control form-control-lg" />
@@ -56,13 +56,19 @@ async function iniciarSesion() {
               <input type="password" id="form2Example28" class="form-control form-control-lg" />
               <label class="form-label" for="form2Example28">Contraseña</label>
             </div>
-
+            <div data-mdb-input-init class="form-outline mb-4">
+              <input type="password" id="form2Example28" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example28">Email</label>
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4">
+              <input type="password" id="form2Example28" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example28">Provincia</label>
+            </div>
             <div class="pt-1 mb-4">
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="button">Login</button>
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="button">Crear Cuenta</button>
             </div>
 
-            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Has olvidado tu contraseña?</a></p>
-            <p>¿No tienes cuenta? <a href="#!" class="link-info">Registrate!</a></p>
+            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Ya tienes cuenta? inicia sesión!</a></p>
 
           </form>
         </div>
@@ -72,6 +78,13 @@ async function iniciarSesion() {
 </section>
 </template>
 <style scoped>
+.bg-image-vertical {
+position: relative;
+overflow: hidden;
+background-repeat: no-repeat;
+background-position: right center;
+background-size: auto 100%;
+}
 
 @media (min-width: 1025px) {
 .h-custom-2 {

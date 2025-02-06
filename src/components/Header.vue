@@ -40,15 +40,14 @@ function cerrarSesion() {
 
 
   <!--Tengo que cambiar los anchor por como se hace en vue-->
+  <!--Falta implementar mejoras al estilo-->
   <header class="p-3 text-bg-dark">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <RouterLink to="/" class="d-flex align-items-left mb-2 mb-lg-0 text-white text-decoration"><p>FreeTours</p></RouterLink>
 
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 text-white">Características</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Precios</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            <RouterLink to="/admin"><li class="nav-link px-2 text-white">Gestion de usuario</li></RouterLink>
             <li><a href="#" class="nav-link px-2 text-white">Acerca de</a></li>
           </ul>
 
@@ -59,7 +58,7 @@ function cerrarSesion() {
           <div class="text-end">
      
             <RouterLink to="/login"><button type="button" class="btn btn-outline-light me-2">Iniciar sesión</button></RouterLink>
-            <RouterLink to="/register"></RouterLink><button type="button" class="btn btn-warning">Regístrate</button></RouterLink>
+            <RouterLink to="/register"><button type="button" class="btn btn-warning">Regístrate</button></RouterLink>
           </div>
         </div>
       </div>
