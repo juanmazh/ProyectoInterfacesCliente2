@@ -32,8 +32,6 @@ function actualizaDatosSesion(usuario){
     <Header :usuarioAutenticado="datosSesion" @sesionCerrada="actualizaDatosSesion" title="FreeTours" />
     <NavBar :datos="datosSesion"/>
     <RouterView @sesionIniciada="actualizaDatosSesion" ></RouterView>
-   
-
     <Footer/>
   </div>
 </template>
