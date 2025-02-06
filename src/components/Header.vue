@@ -59,7 +59,7 @@ function cerrarSesion() {
           <div class="text-end">
      
             <RouterLink to="/login"><button type="button" class="btn btn-outline-light me-2">Iniciar sesión</button></RouterLink>
-            <button type="button" class="btn btn-warning">Regístrate</button>
+            <RouterLink to="/register"></RouterLink><button type="button" class="btn btn-warning">Regístrate</button></RouterLink>
           </div>
         </div>
       </div>
