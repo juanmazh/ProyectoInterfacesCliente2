@@ -1,0 +1,48 @@
+Tablas de la Base de Datos
+----------------------------------
+
+users:
+
+id
+nombre
+email
+contraseña
+rol (cliente, guía, admin)
+----------------------------------
+
+rutas:
+
+id
+titulo
+localidad
+descripcion
+foto
+fecha
+hora
+latitud
+longitud
+----------------------------------
+
+reservas:
+
+id
+ruta_id
+cliente_id
+numero_asistentes
+estado (pendiente, cancelada)
+----------------------------------
+
+valoraciones:
+
+id
+ruta_id
+cliente_id
+estrellas
+comentario
+----------------------------------
+
+asignaciones (relación guía-ruta):
+
+id
+guia_id
+ruta_id

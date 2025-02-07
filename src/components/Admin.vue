@@ -26,20 +26,31 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
-const users = ref([
-  { id: 1, name: 'Juan Perez', email: 'juan@example.com' },
-  { id: 2, name: 'Maria Lopez', email: 'maria@example.com' },
-]);
+const users = ref([]);
 
-const editUser = (user) => {
-  alert(`Editando usuario: ${user.name}`);
+const fetchUsuarios = async () => {
+  try {
+    const response = await fetch('http://localhost:8008/api.php', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    users.value = data;
+  } catch (error) {
+    console.error('Error fetching usuarios:', error);
+  }
 };
 
-const deleteUser = (user) => {
-  alert(`Borrando usuario: ${user.name}`);
-};
+onMounted(() => {
+  fetchUsuarios();
+});
 </script>
 
 <style scoped>
