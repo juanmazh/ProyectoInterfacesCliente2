@@ -4,8 +4,14 @@ import router from '@/router';
 
 const registerForm = ref({ nombre: '', email: '', contraseña: '' });
 const registerError = ref('');
+const loading = ref(false);
+const successMessage = ref('');
 
 async function registrarUsuario() {
+  registerError.value = ''; // Limpiar cualquier error previo
+  successMessage.value = ''; // Limpiar cualquier mensaje de éxito previo
+  loading.value = true; // Activar el estado de carga
+
   try {
     const response = await fetch('http://localhost:8008/api.php/usuarios', {
       method: 'POST',
@@ -15,24 +21,36 @@ async function registrarUsuario() {
       body: JSON.stringify(registerForm.value),
     });
 
+    loading.value = false; // Desactivar el estado de carga
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
 
     const data = await response.json();
+
     if (data.status === 'success') {
+      // Limpiar formulario y mensaje de error
+      registerForm.value = { nombre: '', email: '', contraseña: '' };
       registerError.value = '';
-      //Cambiar, no sea un alert, un flash mesage con redireccion al login a los 3 segundos
-      alert('Registro exitoso. Ahora puedes iniciar sesión.');
-      router.push({ name: 'login' });
+
+      // Mensaje de éxito que se mostrará
+      successMessage.value = 'Registro exitoso. Redirigiendo al login...';
+
+      // Redirigir al login después de 3 segundos
+      setTimeout(() => {
+        router.push({ name: 'login' });
+      }, 3000);
     } else {
       registerError.value = data.message || 'Error al registrar el usuario';
     }
   } catch (err) {
+    loading.value = false; // Desactivar el estado de carga
     registerError.value = 'Error al registrar el usuario';
   }
 }
 </script>
+
 <template>
 <section class="vh-100 d-flex justify-content-center align-items-center">
   <div class="container">
@@ -45,7 +63,6 @@ async function registrarUsuario() {
         </div>
 
         <div class="d-flex align-items-center h-custom-3 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5 justify-content-center">
-
           <form style="width: 23rem;" @submit.prevent="registrarUsuario">
 
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Crear Cuenta</h3>
@@ -66,11 +83,16 @@ async function registrarUsuario() {
             </div>
 
             <div class="pt-1 mb-4">
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit">Crear Cuenta</button>
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit" :disabled="loading">
+                <!-- Mostrar estado de carga en el botón -->
+                <span v-if="loading">Cargando...</span>
+                <span v-else>Crear Cuenta</span>
+              </button>
             </div>
 
             <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Ya tienes una cuenta? Inicia sesión</a></p>
             <p v-if="registerError" class="text-danger">{{ registerError }}</p>
+            <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
 
           </form>
         </div>
@@ -79,18 +101,69 @@ async function registrarUsuario() {
   </div>
 </section>
 </template>
+
 <style scoped>
-.bg-image-vertical {
-position: relative;
-overflow: hidden;
-background-repeat: no-repeat;
-background-position: right center;
-background-size: auto 100%;
+.vh-100 {
+  height: 100vh;
 }
 
-@media (min-width: 1025px) {
-.h-custom-2 {
-height: 100%;
+.container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
 }
+
+.h1 {
+  font-size: 3em;
+  color: #333;
+}
+
+.form-control {
+  font-size: 1.2em;
+  padding: 15px;
+}
+
+.btn {
+  font-size: 1.2em;
+  padding: 15px;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.form-label {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-success {
+  color: #28a745;
+}
+
+.link-info {
+  color: #007BFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-info:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
 </style>
