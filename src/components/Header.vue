@@ -11,7 +11,7 @@ const props = defineProps({
 const router = useRouter();
 
 function cerrarSesion() {
-  localStorage.removeItem('sesion'); 
+  localStorage.removeItem('sesionUser'); 
   emit('sesionCerrada');  
   router.push({ name: 'home' }); 
 }

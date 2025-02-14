@@ -1,3 +1,4 @@
+
 <script>
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -22,26 +23,26 @@ export default {
       datosSesion.value = datos;
       // Almacenar la sesión en localStorage
       if (datos) {
-        localStorage.setItem("sesion", JSON.stringify(datos));
+        localStorage.setItem("sesionUser", JSON.stringify(datos));
       } else {
-        localStorage.removeItem("sesion");
+        localStorage.removeItem("sesionUser");
       }
     };
 
     // Esta función maneja el cierre de sesión
     const handleSesionCerrada = () => {
       datosSesion.value = null;
-      localStorage.removeItem("sesion");
+      localStorage.removeItem("sesionUser");
     };
 
     // Obtener la sesión almacenada al cargar la página
-    const storedSesion = localStorage.getItem("sesion");
+    const storedSesion = localStorage.getItem("sesionUser");
     if (storedSesion) {
       try {
         datosSesion.value = JSON.parse(storedSesion);
       } catch (error) {
         console.error("Error al parsear la sesión:", error);
-        localStorage.removeItem("sesion");
+        localStorage.removeItem("sesionUser");
       }
     }
 
@@ -62,7 +63,6 @@ export default {
     <Footer/>
   </div>
 </template>
-
 
 <style scoped>
 .layout {
