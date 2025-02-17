@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import router from '@/router';
 
+const emit = defineEmits(["sesionIniciada"]);
 const loginForm = ref({ email: '', contraseña: '' });
 const loginError = ref('');
 const loading = ref(false);
@@ -37,8 +38,10 @@ async function iniciarSesion() {
     const data = await response.json();
     if (data.status === 'success') {
       loginError.value = '';
-      // Guardar los datos de sesión (por ejemplo, token) si es necesario
+      // Guardar los datos de sesión (por ejemplo, token) en localStorage
       localStorage.setItem('sesionUser', JSON.stringify(data.user));
+      // Emitir el evento sesionIniciada
+      emit('sesionIniciada', data.user);
       // Redirigir al usuario al home
       router.push({ name: 'home' });
     } else {
@@ -57,7 +60,6 @@ async function iniciarSesion() {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-6 text-black">
-
         <div class="px-5 ms-xl-4 text-center">
           <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
           <span class="h1 fw-bold mb-0">Iniciar Sesion</span>
@@ -87,7 +89,6 @@ async function iniciarSesion() {
 
             <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Has olvidado tu contraseña?</a></p>
             <p v-if="loginError" class="text-danger">{{ loginError }}</p>
-
           </form>
         </div>
       </div>

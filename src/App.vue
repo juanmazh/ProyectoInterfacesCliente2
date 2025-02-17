@@ -1,3 +1,11 @@
+<template>
+  <div class="layout">
+    <Header v-if="!isAdminRoute" :usuarioAutenticado="datosSesion" @sesionCerrada="handleSesionCerrada" title="FreeTours" />
+    <NavBar :datos="datosSesion"/>
+    <RouterView @sesionIniciada="actualizaDatosSesion"></RouterView>
+    <Footer/>
+  </div>
+</template>
 
 <script>
 import { computed, ref } from 'vue';
@@ -10,7 +18,7 @@ export default {
   components: {
     Header,
     NavBar,
-    Footer
+    Footer,
   },
   setup() {
     const route = useRoute();
@@ -55,14 +63,6 @@ export default {
   }
 };
 </script>
-<template>
-  <div class="layout">
-    <Header v-if="!isAdminRoute" :usuarioAutenticado="datosSesion" @sesionCerrada="handleSesionCerrada" title="FreeTours" />
-    <NavBar :datos="datosSesion"/>
-    <RouterView @sesionIniciada="actualizaDatosSesion"></RouterView>
-    <Footer/>
-  </div>
-</template>
 
 <style scoped>
 .layout {

@@ -152,10 +152,6 @@ async function registrarUsuario() {
   color: #dc3545;
 }
 
-.text-success {
-  color: #28a745;
-}
-
 .link-info {
   color: #007BFF;
   text-decoration: none;

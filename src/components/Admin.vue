@@ -1,3 +1,90 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const users = ref([]);
+const showModal = ref(false);
+const selectedUser = ref({});
+
+const fetchUsuarios = async () => {
+  try {
+    const response = await fetch('http://localhost:8008/api.php/usuarios', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    users.value = data;
+  } catch (error) {
+    console.error('Error fetching usuarios:', error);
+  }
+};
+
+const openEditModal = (user) => {
+  selectedUser.value = { ...user };
+  showModal.value = true;
+};
+
+const closeEditModal = () => {
+  showModal.value = false;
+};
+
+const updateUser = async () => {
+  try {
+    console.log('Updating user:', selectedUser.value);
+    const updatedRole = {
+      rol: selectedUser.value.rol
+    };
+    const response = await fetch(`http://localhost:8008/api.php/usuarios?id=${selectedUser.value.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedRole),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Error response text:', errorText);
+      throw new Error(`Network response was not ok: ${errorText}`);
+    }
+    const data = await response.json();
+    // Actualizar la lista de usuarios localmente
+    const index = users.value.findIndex(user => user.id === data.id);
+    if (index !== -1) {
+      users.value[index] = data;
+    }
+    closeEditModal();
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+};
+
+const deleteUser = async (userId) => {
+  try {
+    console.log(`Deleting user with ID: ${userId}`);
+    const response = await fetch(`http://localhost:8008/api.php?id=${userId}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Error response text:', errorText);
+      throw new Error(`Network response was not ok: ${errorText}`);
+    }
+    // Eliminar el usuario de la lista local después de eliminarlo en el servidor
+    users.value = users.value.filter(user => user.id !== userId);
+  } catch (error) {
+    console.error('Error deleting user:', error);
+  }
+};
+
+onMounted(() => {
+  fetchUsuarios();
+});
+</script>
+
 <template>
   <div class="user-management">
     <h1>Panel de Control</h1>
@@ -53,93 +140,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-
-const users = ref([]);
-const showModal = ref(false);
-const selectedUser = ref({});
-
-const fetchUsuarios = async () => {
-  try {
-    const response = await fetch('http://localhost:8008/api.php/usuarios', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    users.value = data;
-  } catch (error) {
-    console.error('Error fetching usuarios:', error);
-  }
-};
-
-const openEditModal = (user) => {
-  selectedUser.value = { ...user };
-  showModal.value = true;
-};
-
-const closeEditModal = () => {
-  showModal.value = false;
-};
-
-const updateUser = async () => {
-  try {
-    console.log('Updating user:', selectedUser.value);
-    const response = await fetch(`http://localhost:8008/api.php/usuarios/${selectedUser.value.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(selectedUser.value),
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response text:', errorText);
-      throw new Error(`Network response was not ok: ${errorText}`);
-    }
-    const data = await response.json();
-    // Actualizar la lista de usuarios localmente
-    const index = users.value.findIndex(user => user.id === data.id);
-    if (index !== -1) {
-      users.value[index] = data;
-    }
-    closeEditModal();
-  } catch (error) {
-    console.error('Error updating user:', error);
-  }
-};
-
-const deleteUser = async (userId) => {
-  try {
-    console.log(`Deleting user with ID: ${userId}`);
-    const response = await fetch(`http://localhost:8008/api.php/usuarios/${userId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response text:', errorText);
-      throw new Error(`Network response was not ok: ${errorText}`);
-    }
-    // Eliminar el usuario de la lista local después de eliminarlo en el servidor
-    users.value = users.value.filter(user => user.id !== userId);
-  } catch (error) {
-    console.error('Error deleting user:', error);
-  }
-};
-
-onMounted(() => {
-  fetchUsuarios();
-});
-</script>
 
 <style scoped>
 .user-management {

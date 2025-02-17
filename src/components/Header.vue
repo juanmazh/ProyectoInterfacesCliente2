@@ -18,13 +18,24 @@ function cerrarSesion() {
 </script>
 
 <template>
-  <header class="p-3 text-bg-dark">
+  <header class="p-3 bg-dark text-white">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <RouterLink to="/" class="d-flex align-items-left mb-2 mb-lg-0 text-white text-decoration"><p>{{ title }}</p></RouterLink>
+        <RouterLink to="/" class="d-flex align-items-left mb-2 mb-lg-0 text-white text-decoration-none"><p>{{ title }}</p></RouterLink>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <RouterLink to="/admin"><li class="nav-link px-2 text-white">Gestión de usuario</li></RouterLink>
+          <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
+            <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de usuario</RouterLink>
+          </template>
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+            <RouterLink to="/rutasUsuario" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
+          </template>
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+            <RouterLink to="/valorar" class="nav-link px-2 text-white gestion-usuario">Valorar</RouterLink>
+          </template>
+          <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
+            <RouterLink to="/crear" class="nav-link px-2 text-white gestion-usuario">Crear Rutas</RouterLink>
+          </template>
           <li><RouterLink to="/acerca" class="nav-link px-2 text-white">Acerca de</RouterLink></li>
         </ul>
 
@@ -34,8 +45,8 @@ function cerrarSesion() {
 
         <div class="text-end">
           <template v-if="usuarioAutenticado">
-            <span class="text-white me-2">{{ usuarioAutenticado.name }}</span>
-            <button @click="cerrarSesion" class="btn btn-outline-light me-2">Cerrar sesión</button>
+            <span class="text-white me-2">Bienvenido, {{ usuarioAutenticado.nombre }} ({{ usuarioAutenticado.rol }})</span>
+            <button @click.prevent="cerrarSesion" class="btn btn-danger">Cerrar Sesión</button>
           </template>
           <template v-else>
             <RouterLink to="/login" class="btn btn-outline-light me-2">Iniciar sesión</RouterLink>
@@ -49,4 +60,9 @@ function cerrarSesion() {
 
 <style scoped>
 /* Estilos personalizados */
+.gestion-usuario {
+  border: 2px solid green;
+  padding: 5px;
+  border-radius: 5px;
+}
 </style>
