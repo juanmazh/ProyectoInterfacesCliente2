@@ -64,7 +64,7 @@ const updateUser = async () => {
 
 const deleteUser = async (userId) => {
   try {
-    console.log(`Deleting user with ID: ${userId}`);
+    console.log(`Borrar usuario de id: ${userId}`);
     const response = await fetch(`http://localhost:8008/api.php?id=${userId}`, {
       method: 'DELETE',
     });
@@ -88,8 +88,8 @@ onMounted(() => {
 <template>
   <div class="user-management">
     <h1>Panel de Control</h1>
-    <table>
-      <thead>
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
         <tr>
           <th>ID</th>
           <th>Nombre</th>
@@ -105,8 +105,8 @@ onMounted(() => {
           <td>{{ user.email }}</td>
           <td>{{ user.rol }}</td>
           <td>
-            <button class="btn-sm btn-edit" @click="openEditModal(user)">Editar</button>
-            <button class="btn-sm btn-delete" @click="deleteUser(user.id)">Borrar</button>
+            <button class="btn btn-sm btn-primary me-2" @click="openEditModal(user)">Editar</button>
+            <button class="btn btn-sm btn-danger" @click="deleteUser(user.id)">Borrar</button>
           </td>
         </tr>
       </tbody>
@@ -120,21 +120,21 @@ onMounted(() => {
         <form @submit.prevent="updateUser">
           <div class="form-group">
             <label for="nombre">Nombre</label>
-            <input type="text" v-model="selectedUser.nombre" id="nombre" required>
+            <input type="text" v-model="selectedUser.nombre" id="nombre" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" v-model="selectedUser.email" id="email" required>
+            <input type="email" v-model="selectedUser.email" id="email" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="rol">Rol</label>
-            <select v-model="selectedUser.rol" id="rol" required>
+            <select v-model="selectedUser.rol" id="rol" class="form-control" required>
               <option value="user">Usuario</option>
               <option value="admin">Admin</option>
               <option value="guide">Guía</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary mt-3">Guardar</button>
         </form>
       </div>
     </div>
@@ -142,40 +142,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
+h1{
+  text-align: center;
+}
 .user-management {
   padding: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.btn-sm {
-  padding: 5px 10px;
-  margin: 2px;
-}
-
-.btn-edit {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.btn-delete {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Estilos para el modal */
 .modal {
   display: flex;
   justify-content: center;

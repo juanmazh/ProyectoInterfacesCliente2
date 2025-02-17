@@ -1,5 +1,6 @@
 <template>
-    <p>Bienvenido a FreeTours</p>
+    <h1>Bienvenido a FreeTours</h1>
+    <p></p>
     <div>
       <Carusel />
     </div>
@@ -16,5 +17,7 @@
   </script>
   
   <style scoped>
-  /* Estilos personalizados */
+  h1{
+    text-align: center;
+  }
   </style>
