@@ -31,13 +31,13 @@ function cerrarSesion() {
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
             <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de guías</RouterLink>
           </template>
-          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente' || 'guia'">
             <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Descubrir rutas</RouterLink>
           </template>
-          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente' || 'guia'">
             <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
           </template>
-          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente' || 'guia'">
             <RouterLink to="/valorar" class="nav-link px-2 text-white gestion-usuario">Valorar</RouterLink>
           </template>
           <li><RouterLink to="/acerca" class="nav-link px-2 text-white">Acerca de</RouterLink></li>
