@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Si estas trabajando en casa recuerda abrir el ubuntu con WSL2 y lanzar la api
+
+php -S localhost:8008
+

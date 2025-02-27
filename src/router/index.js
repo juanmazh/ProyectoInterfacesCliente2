@@ -1,8 +1,12 @@
+//Acuerdate de importar las vistas cuando quieras hacer nuevas ;)
+
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import AdminView from '../views/AdminView.vue'
+import RutasView from '../views/RutasView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -27,7 +31,11 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminView,
-    },
+    }, {
+      path: '/rutas',
+      name: 'rutas',
+      component: RutasView,
+    }
   ],
 })
 

@@ -27,14 +27,18 @@ function cerrarSesion() {
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
             <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de usuario</RouterLink>
           </template>
+          <!--Hay que hacer las vistas de Gestion guias, descubir, mis rutas, valorar, acerca de, crear rutas-->
+          <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
+            <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de guías</RouterLink>
+          </template>
           <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
-            <RouterLink to="/rutasUsuario" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
+            <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Descubrir rutas</RouterLink>
+          </template>
+          <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
+            <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
           </template>
           <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente'">
             <RouterLink to="/valorar" class="nav-link px-2 text-white gestion-usuario">Valorar</RouterLink>
-          </template>
-          <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
-            <RouterLink to="/crear" class="nav-link px-2 text-white gestion-usuario">Crear Rutas</RouterLink>
           </template>
           <li><RouterLink to="/acerca" class="nav-link px-2 text-white">Acerca de</RouterLink></li>
         </ul>
