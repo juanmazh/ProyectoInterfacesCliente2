@@ -1,8 +1,60 @@
+<template>
+  <section class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-6 text-black">
+          <div class="px-5 text-center">
+            <h1 class="fw-bold mb-3">Iniciar Sesión</h1>
+          </div>
+          <div class="d-flex align-items-center px-5 mt-5 justify-content-center">
+            <form style="width: 23rem;" @submit.prevent="iniciarSesion">
+              <h3 class="fw-normal mb-3 pb-3">Entrar</h3>
+
+              <div class="form-outline mb-4">
+                <input
+                  type="email"
+                  v-model="loginForm.email"
+                  class="form-control form-control-lg"
+                  required
+                />
+                <label class="form-label">Correo Electrónico</label>
+              </div>
+
+              <div class="form-outline mb-4">
+                <input
+                  type="password"
+                  v-model="loginForm.contraseña"
+                  class="form-control form-control-lg"
+                  required
+                />
+                <label class="form-label">Contraseña</label>
+              </div>
+
+              <div class="pt-1 mb-4">
+                <button
+                  class="btn btn-info btn-lg btn-block"
+                  type="submit"
+                  :disabled="loading"
+                >
+                  <span v-if="loading">Cargando...</span>
+                  <span v-else>Iniciar Sesión</span>
+                </button>
+              </div>
+
+              <p v-if="loginError" class="text-danger">{{ loginError }}</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
 
-const emit = defineEmits(["sesionIniciada"]);
+const emit = defineEmits(['sesionIniciada']);
 const loginForm = ref({ email: '', contraseña: '' });
 const loginError = ref('');
 const loading = ref(false);
@@ -20,7 +72,6 @@ async function iniciarSesion() {
     loginError.value = 'Correo electrónico no válido';
     return;
   }
-
   loading.value = true;
   try {
     const response = await fetch('http://localhost:8008/api.php/usuarios?login', {
@@ -36,13 +87,21 @@ async function iniciarSesion() {
     }
 
     const data = await response.json();
-    if (data.status === 'success') {
+    if (data.status === 'success' && data.user) {
       loginError.value = '';
-      // Guardar los datos de sesión (por ejemplo, token) en localStorage
+      
+      // Verificar que el usuario tiene rol
+      if (!data.user.rol) {
+        throw new Error("El usuario autenticado no tiene un rol definido.");
+      }
+
+      // Guardar usuario en localStorage
       localStorage.setItem('sesionUser', JSON.stringify(data.user));
-      // Emitir el evento sesionIniciada
+
+      // Emitir evento con los datos del usuario
       emit('sesionIniciada', data.user);
-      // Redirigir al usuario al home
+
+      // Redirigir al home o cualquier página
       router.push({ name: 'home' });
     } else {
       loginError.value = data.message || 'Usuario o contraseña incorrectos';
@@ -55,49 +114,8 @@ async function iniciarSesion() {
 }
 </script>
 
-<template>
-<section class="vh-100 d-flex justify-content-center align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-sm-6 text-black">
-        <div class="px-5 ms-xl-4 text-center">
-          <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-          <span class="h1 fw-bold mb-0">Iniciar Sesion</span>
-        </div>
-
-        <div class="d-flex align-items-center h-custom-3 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5 justify-content-center">
-          <form style="width: 23rem;" @submit.prevent="iniciarSesion">
-
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Entrar</h3>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="loginEmail" v-model="loginForm.email" class="form-control form-control-lg" required />
-              <label class="form-label" for="loginEmail">Correo Electrónico</label>
-            </div>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="loginPassword" v-model="loginForm.contraseña" class="form-control form-control-lg" required />
-              <label class="form-label" for="loginPassword">Contraseña</label>
-            </div>
-
-            <div class="pt-1 mb-4">
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit" :disabled="loading">
-                <span v-if="loading">Cargando...</span>
-                <span v-else>Iniciar Sesión</span>
-              </button>
-            </div>
-
-            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Has olvidado tu contraseña?</a></p>
-            <p v-if="loginError" class="text-danger">{{ loginError }}</p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-</template>
-
 <style scoped>
+/* Estilos del formulario */
 .vh-100 {
   height: 100vh;
 }

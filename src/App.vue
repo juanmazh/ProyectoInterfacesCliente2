@@ -3,6 +3,7 @@
     <Header v-if="!isAdminRoute" :usuarioAutenticado="datosSesion" @sesionCerrada="handleSesionCerrada" title="FreeTours" />
     <NavBar :datos="datosSesion"/>
     <RouterView @sesionIniciada="actualizaDatosSesion"></RouterView>
+    <RutasView :usuarioAutenticado="usuario" />
     <Footer/>
   </div>
 </template>
@@ -13,6 +14,7 @@ import { useRoute } from 'vue-router';
 import Header from './components/Header.vue';
 import NavBar from './components/NavBar.vue';
 import Footer from './components/Footer.vue';
+import RutasView from './views/RutasView.vue';
 
 export default {
   components: {
