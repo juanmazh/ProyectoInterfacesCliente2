@@ -12,16 +12,16 @@
     <!--Hacer /ruta/crear y /ruta/id/editar pensar como hacerlo-->
     <!-- Botón 'Crear Ruta' solo visible para usuarios con rol 'guia' -->
     <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
-      <router-link to="/ruta/crear" class="btn btn-success mb-3">
+      <RouterLink to="/ruta/crear" class="btn btn-success mb-3">
         Crear Ruta
-      </router-link>
+      </RouterLink>
     </template>
 
     <ul class="list-group">
       <li v-for="ruta in rutas" :key="ruta.id"
         class="list-group-item d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center w-100 justify-content-between">
-          <img :src="ruta.imagen || ruta.foto" class="img-thumbnail me-3 img-large" alt="Imagen ruta">
+          <img :src="ruta.imagen || ruta.foto" class="img-thumbnail me-3 img-fluid w-25" alt="Imagen ruta">
           <div class="d-flex flex-column align-items-center justify-content-center w-100 text-center">
             <span class="fw-bold ruta-titulo">{{ ruta.titulo }}</span>
             <span class="fw-bold">{{ ruta.localidad }}</span>
@@ -48,6 +48,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 
 // Variables reactivas
 const rutas = ref([]);

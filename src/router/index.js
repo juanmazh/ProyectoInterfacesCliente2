@@ -7,6 +7,7 @@ import RegisterView from '../views/RegisterView.vue'
 import AdminView from '../views/AdminView.vue'
 import RutasView from '../views/RutasView.vue'
 import RutaView from '../views/RutaView.vue'
+import CrearRuta from '../views/CrearRuta.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,7 +42,12 @@ const router = createRouter({
       path: '/ruta/:id',
       name: 'ruta',
       component: RutaView,
-    } 
+    }, 
+    {
+      path: '/ruta/crear',
+      name: 'crearRuta',
+      component: CrearRuta,
+    }, 
   ],
 })
 
