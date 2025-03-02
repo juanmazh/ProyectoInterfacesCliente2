@@ -35,7 +35,7 @@ function cerrarSesion() {
             <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Descubrir rutas</RouterLink>
           </template>
           <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente' || 'guia'">
-            <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
+            <RouterLink to="/reservas" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
           </template>
           <template v-if="usuarioAutenticado&& usuarioAutenticado.rol === 'cliente' || 'guia'">
             <RouterLink to="/valorar" class="nav-link px-2 text-white gestion-usuario">Valorar</RouterLink>
