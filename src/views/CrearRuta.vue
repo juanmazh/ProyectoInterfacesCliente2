@@ -108,6 +108,7 @@ const buscarUbicacion = async () => {
       const { lat, lon } = data[0];
       actualizarUbicacion(lat, lon);
     } else {
+      //SweetAlert2 esta bastante guay para darle un toque a la app
       Swal.fire({
         icon: 'error',
         title: 'Ubicación no encontrada',
@@ -133,6 +134,15 @@ const actualizarUbicacion = (lat, lng) => {
 // Enviar datos a la API
 const crearRuta = async () => {
   error.value = null;
+
+  // Obtener la fecha actual en formato YYYY-MM-DD
+  const hoy = new Date().toISOString().split('T')[0];
+
+  // Validar que la fecha no sea anterior a hoy
+  if (ruta.value.fecha < hoy) {
+    error.value = "No puedes seleccionar una fecha pasada.";
+    return;
+  }
 
   // Validar que la ubicación esté seleccionada
   if (!ruta.value.latitud || !ruta.value.longitud) {
@@ -170,11 +180,12 @@ const crearRuta = async () => {
     error.value = err.message;
     Swal.fire({
       icon: 'error',
-      title: 'Oops...',
+      title: 'Algo ha salido mal',
       text: err.message,
     });
   }
 };
+
 </script>
 
 <style scoped>

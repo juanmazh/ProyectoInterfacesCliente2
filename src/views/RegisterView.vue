@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 const registerForm = ref({ nombre: '', email: '', contraseña: '' });
 const registerError = ref('');
@@ -34,8 +35,13 @@ async function registrarUsuario() {
       registerForm.value = { nombre: '', email: '', contraseña: '' };
       registerError.value = '';
 
-      // Mensaje de éxito que se mostrará
-      successMessage.value = 'Registro exitoso. Redirigiendo al login...';
+      // Mostrar alerta de éxito con SweetAlert2
+      Swal.fire({
+        icon: 'success',
+        title: '¡Registro Exitoso!',
+        text: 'Te has registrado correctamente. Serás redirigido al login.',
+        confirmButtonText: 'Aceptar',
+      });
 
       // Redirigir al login después de 3 segundos
       setTimeout(() => {
@@ -43,10 +49,24 @@ async function registrarUsuario() {
       }, 3000);
     } else {
       registerError.value = data.message || 'Error al registrar el usuario';
+      // Mostrar alerta de error con SweetAlert2
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: registerError.value,
+        confirmButtonText: 'Aceptar',
+      });
     }
   } catch (err) {
     loading.value = false; // Desactivar el estado de carga
     registerError.value = 'Error al registrar el usuario';
+    // Mostrar alerta de error con SweetAlert2
+    Swal.fire({
+      icon: 'error',
+      title: '¡Error!',
+      text: registerError.value,
+      confirmButtonText: 'Aceptar',
+    });
   }
 }
 </script>

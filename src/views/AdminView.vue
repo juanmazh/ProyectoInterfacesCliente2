@@ -10,11 +10,31 @@
 <script setup>
 import Admin from '../components/Admin.vue';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 
 const goToIndex = () => {
-  router.push('/');
+  // Mostrar alerta de confirmación antes de redirigir
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Volverás a la vista de usuario",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, volver',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirigir si el usuario confirma
+      router.push('/');
+      Swal.fire(
+        'Redirigiendo...',
+        'Te hemos llevado a la vista de usuario.',
+        'success'
+      );
+    }
+  });
 };
 </script>
 

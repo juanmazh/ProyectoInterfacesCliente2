@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Swal from 'sweetalert2';
 
 const users = ref([]);
 const showModal = ref(false);
@@ -31,13 +32,13 @@ const openEditModal = (user) => {
 const closeEditModal = () => {
   showModal.value = false;
 };
-
 const updateUser = async () => {
   try {
-    console.log('Updating user:', selectedUser.value);
     const updatedRole = {
       rol: selectedUser.value.rol
     };
+
+    // Hacer la solicitud PUT con la URL correcta y los datos del rol
     const response = await fetch(`http://localhost:8008/api.php/usuarios?id=${selectedUser.value.id}`, {
       method: 'PUT',
       headers: {
@@ -45,38 +46,85 @@ const updateUser = async () => {
       },
       body: JSON.stringify(updatedRole),
     });
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Error response text:', errorText);
       throw new Error(`Network response was not ok: ${errorText}`);
     }
-    const data = await response.json();
-    // Actualizar la lista de usuarios localmente
-    const index = users.value.findIndex(user => user.id === data.id);
+
+    const data = await response.json();  // Asegúrate de que la respuesta contenga los datos actualizados
+
+    // Actualizar la lista de usuarios localmente con los nuevos datos en tiempo real
+    const index = users.value.findIndex(user => user.id === selectedUser.value.id);
     if (index !== -1) {
-      users.value[index] = data;
+      // Actualiza solo el rol
+      users.value[index] = { ...users.value[index], rol: data.rol };
     }
+
+    // Cerrar el modal y mostrar alerta de éxito
     closeEditModal();
+
+    Swal.fire({
+      title: 'Usuario Actualizado',
+      text: 'El rol del usuario ha sido actualizado correctamente.',
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    });
   } catch (error) {
     console.error('Error updating user:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Hubo un problema al actualizar el usuario.',
+      icon: 'error',
+      confirmButtonText: 'Aceptar'
+    });
   }
 };
 
 const deleteUser = async (userId) => {
   try {
-    console.log(`Borrar usuario de id: ${userId}`);
-    const response = await fetch(`http://localhost:8008/api.php?id=${userId}`, {
-      method: 'DELETE',
+    // Confirmar eliminación
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Esta acción eliminará al usuario permanentemente.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
     });
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response text:', errorText);
-      throw new Error(`Network response was not ok: ${errorText}`);
+
+    if (result.isConfirmed) {
+      console.log(`Borrar usuario de id: ${userId}`);
+      const response = await fetch(`http://localhost:8008/api.php/usuarios?id=${userId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response text:', errorText);
+        throw new Error(`Network response was not ok: ${errorText}`);
+      }
+
+      // Eliminar el usuario de la lista local inmediatamente
+      users.value = users.value.filter(user => user.id !== userId);
+
+      // Alerta de éxito
+      Swal.fire(
+        'Eliminado!',
+        'El usuario ha sido eliminado correctamente.',
+        'success'
+      );
     }
-    // Eliminar el usuario de la lista local después de eliminarlo en el servidor
-    users.value = users.value.filter(user => user.id !== userId);
   } catch (error) {
     console.error('Error deleting user:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Hubo un problema al eliminar el usuario.',
+      icon: 'error',
+      confirmButtonText: 'Aceptar'
+    });
   }
 };
 
@@ -129,9 +177,9 @@ onMounted(() => {
           <div class="form-group">
             <label for="rol">Rol</label>
             <select v-model="selectedUser.rol" id="rol" class="form-control" required>
-              <option value="user">Usuario</option>
+              <option value="cliente">Cliente</option>
               <option value="admin">Admin</option>
-              <option value="guide">Guía</option>
+              <option value="guia">Guía</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary mt-3">Guardar</button>
