@@ -15,6 +15,7 @@
         <p><strong>Descripción:</strong> {{ ruta.descripcion }}</p>
         <p><strong>Fecha:</strong> {{ ruta.fecha }}</p>
         <p><strong>Hora:</strong> {{ ruta.hora }}</p>
+        <p><strong>Guía:</strong> {{ ruta.guia ? ruta.guia.nombre : 'No asignado' }}</p> <!-- Mostrar el guía asignado -->
       </div>
 
       <!-- Columna del mapa -->
@@ -27,6 +28,13 @@
     <div class="text-center mt-4">
       <button class="btn btn-primary" @click="openReservationModal">
         Reservar esta ruta
+      </button>
+    </div>
+
+    <!-- Botón para asignar o cambiar guía, visible solo para administradores -->
+    <div class="text-center mt-2" v-if="isAdmin">
+      <button class="btn btn-secondary" @click="openAssignGuideModal">
+        Asignar o cambiar guía
       </button>
     </div>
   </div>
@@ -45,16 +53,49 @@ import Swal from 'sweetalert2';
 const route = useRoute();
 const ruta = ref(null);
 const error = ref(null);
+const isAdmin = ref(false); // Variable reactiva para el rol de administrador
 let mapInstance = null; // Guardar la instancia del mapa
+
+// Verificar si el usuario es administrador
+const checkAdmin = () => {
+  const sesionUser = JSON.parse(localStorage.getItem('sesionUser'));
+  if (sesionUser && sesionUser.rol === 'admin') {
+    isAdmin.value = true;
+  }
+};
 
 // Obtener los detalles de la ruta desde la API
 const fetchRuta = async () => {
   try {
+    // Obtener detalles de la ruta
     const response = await fetch(`http://localhost:8008/api.php/rutas?id=${route.params.id}`);
-    if (!response.ok) {
-      throw new Error('Error al obtener los detalles de la ruta');
+    if (!response.ok) throw new Error('Error al obtener los detalles de la ruta');
+
+    const rutaData = await response.json();
+
+    // Obtener la asignación del guía
+    const asignacionResponse = await fetch(`http://localhost:8008/api.php/asignaciones?ruta_id=${route.params.id}`);
+    if (!asignacionResponse.ok) throw new Error('Error al obtener la asignación del guía');
+
+    const asignacionData = await asignacionResponse.json();
+    const guiaId = asignacionData.length > 0 ? asignacionData[0].guia_id : null;
+
+    // Obtener datos del guía solo si existe guiaId
+    if (guiaId) {
+      const guiaResponse = await fetch(`http://localhost:8008/api.php/usuarios?id=${guiaId}`);
+      if (!guiaResponse.ok) throw new Error('Error al obtener los detalles del guía');
+
+      const guiaData = await guiaResponse.json();
+
+      // Si la API devuelve un array, tomamos solo el guía con el ID correspondiente
+      rutaData.guia = Array.isArray(guiaData) ? guiaData.find(user => user.id == guiaId) || null : guiaData;
+    } else {
+      rutaData.guia = null;
     }
-    ruta.value = await response.json();
+
+    // Asignar la ruta con el guía
+    ruta.value = rutaData;
+
   } catch (err) {
     error.value = err.message;
   }
@@ -170,8 +211,98 @@ const realizarReserva = async (sesionUser, numPersonas) => {
   }
 };
 
+// Función para abrir el modal de asignación de guía
+const openAssignGuideModal = async () => {
+  try {
+    const response = await fetch(`http://localhost:8008/api.php/asignaciones?fecha=${ruta.value.fecha}`);
+    if (!response.ok) throw new Error('Error al obtener la lista de guías');
+
+    const guias = await response.json();
+
+    if (!Array.isArray(guias)) {
+      throw new Error('La respuesta de la API no es un array');
+    }
+
+    const options = guias.filter(guia => !guia.asignado).map(guia => `<option value="${guia.id}">${guia.nombre}</option>`).join('');
+
+    Swal.fire({
+      title: 'Asignar o cambiar guía',
+      html: `
+        <select id="guiaSelect" class="swal2-input">
+          ${options}
+        </select>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Asignar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const guiaId = document.getElementById('guiaSelect').value;
+        if (!guiaId) {
+          Swal.showValidationMessage('Debes seleccionar un guía');
+          return false;
+        }
+        return { guiaId };
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        assignGuide(result.value.guiaId);
+      }
+    });
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.message,
+    });
+  }
+};
+
+// Función para asignar el guía seleccionado a la ruta
+const assignGuide = async (guiaId) => {
+  const asignacionData = {
+    ruta_id: ruta.value.id,
+    guia_id: guiaId
+  };
+
+  try {
+    const response = await fetch('http://localhost:8008/api.php/asignaciones', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(asignacionData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al asignar el guía');
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Guía asignado con éxito',
+      text: 'El guía ha sido asignado correctamente.',
+    });
+
+    // Actualizar los detalles de la ruta
+    fetchRuta();
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.message,
+    });
+  }
+};
+
 // Cargar los datos al montar el componente
-onMounted(fetchRuta);
+onMounted(() => {
+  fetchRuta();
+  checkAdmin(); // Verificar si el usuario es administrador
+});
 
 // Esperar a que la ruta cargue y luego iniciar el mapa
 watch(ruta, (newRuta) => {
@@ -215,5 +346,10 @@ h4, p {
 .btn-primary {
   font-size: 1.4rem;
   padding: 10px 20px;
+}
+
+.btn-secondary {
+  font-size: 1.2rem;
+  padding: 8px 16px;
 }
 </style>

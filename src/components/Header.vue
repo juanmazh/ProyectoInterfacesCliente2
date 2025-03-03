@@ -27,7 +27,7 @@ function cerrarSesion() {
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
             <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de usuario</RouterLink>
           </template>
-          <!--Hay que hacer las vistas de Gestion guias, descubir, mis rutas, valorar, acerca de, crear rutas-->
+          <!--Hay que hacer las vistas de Gestion guias, descubir, valorar, acerca de,-->
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
             <RouterLink to="/admin" class="nav-link px-2 text-white gestion-usuario">Gestión de guías</RouterLink>
           </template>
