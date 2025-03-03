@@ -10,22 +10,22 @@
         <div class="carousel-item active">
           <img src="../assets/images/jaen.jpg" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
+            <h5>Calle Bernabe Soriano Jaén</h5>
+            <p>Una de las emblematicas calles de la capital de Jaén con sus hermosas vistas de cara a la majestuosa catedral</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="../assets/images/jaen.jpg" class="d-block w-100" alt="...">
+          <img src="https://malagacatedral.com/wp-content/uploads/catedral-malaga-exterior-4.webp" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p>
+            <h5>Catedral de Málaga</h5>
+            <p>Increible y sensacional experiencia en la visita a la catedral de malaga, siendo un simbolo para toda la provincia malagueña</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="../assets/images/jaen.jpg" class="d-block w-100" alt="...">
+          <img src="https://fotografias.larazon.es/clipping/cmsimages01/2020/04/22/753D8399-AAB8-4F2B-B58F-DD27FE1B9B8F/98.jpg?crop=6000,3376,x0,y430&width=1900&height=1069&optimize=low&format=webply" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
+            <h5>Sagrada Familia Barcelona</h5>
+            <p>Una impresionante experiencia visitando el que es para muchos la mayor obra aún en construcción para admirar la increible obra de la humanidad</p>
           </div>
         </div>
       </div>
@@ -45,5 +45,16 @@
 .carousel-container {
   width: 116vh; /* Ajusta el tamaño según tus necesidades */
   margin: 0 auto; /* Centra el carrusel horizontalmente */
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mejorar el contraste */
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+  color: #fff; /* Color blanco para el texto */
 }
 </style>

@@ -10,6 +10,7 @@ import RutaView from '../views/RutaView.vue'
 import CrearRuta from '../views/CrearRuta.vue'
 import ReservaView from '../views/ReservaView.vue'
 import GuiaView from '../views/GuiaView.vue'
+import AcercaView from '@/views/AcercaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,11 @@ const router = createRouter({
       path: '/guia',
       name: 'guia',
       component: GuiaView,
+    }, 
+    {
+      path: '/acerca',
+      name: 'acerca',
+      component: AcercaView,
     }, 
   ],
 })
