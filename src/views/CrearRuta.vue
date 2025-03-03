@@ -31,12 +31,22 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label">Fecha</label>
-          <input v-model="ruta.fecha" type="date" class="form-control" required />
+          <input v-model="ruta.fecha" @change="obtenerGuiasDisponibles" type="date" class="form-control" required />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Hora</label>
           <input v-model="ruta.hora" type="time" class="form-control" required />
         </div>
+      </div>
+
+      <!-- Guías Disponibles -->
+      <div class="mb-3">
+        <label class="form-label">Guía</label>
+        <select v-model="ruta.guia_id" class="form-control" required>
+          <option v-for="guia in guias" :key="guia.id" :value="guia.id">
+            {{ guia.nombre }}
+          </option>
+        </select>
       </div>
 
       <!-- Ubicación -->
@@ -75,11 +85,13 @@ const ruta = ref({
   fecha: '',
   hora: '',
   latitud: null,
-  longitud: null
+  longitud: null,
+  guia_id: null // Añadimos el campo para el ID del guía
 });
 
 const direccion = ref('');
 const error = ref(null);
+const guias = ref([]); // Añadimos el estado para los guías disponibles
 let map, marker;
 
 // Inicializar el mapa
@@ -108,7 +120,6 @@ const buscarUbicacion = async () => {
       const { lat, lon } = data[0];
       actualizarUbicacion(lat, lon);
     } else {
-      //SweetAlert2 esta bastante guay para darle un toque a la app
       Swal.fire({
         icon: 'error',
         title: 'Ubicación no encontrada',
@@ -129,6 +140,29 @@ const actualizarUbicacion = (lat, lng) => {
   marker = L.marker([lat, lng]).addTo(map).bindPopup("Ubicación seleccionada").openPopup();
 
   map.setView([lat, lng], 13);
+};
+
+// Obtener guías disponibles para la fecha seleccionada
+const obtenerGuiasDisponibles = async () => {
+  if (!ruta.value.fecha) return;
+
+  try {
+    const response = await fetch(`http://localhost:8008/api.php/asignaciones?fecha=${ruta.value.fecha}`);
+    const data = await response.json();
+
+    if (response.ok) {
+      guias.value = data.filter(guia => !guia.asignado); // Filtrar guías no asignados
+    } else {
+      throw new Error(data.message || 'Error al obtener los guías disponibles');
+    }
+  } catch (err) {
+    error.value = err.message;
+    Swal.fire({
+      icon: 'error',
+      title: 'Algo ha salido mal',
+      text: err.message,
+    });
+  }
 };
 
 // Enviar datos a la API

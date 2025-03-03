@@ -98,37 +98,35 @@ const openReservationModal = () => {
   Swal.fire({
     title: 'Reserva tu ruta',
     html: `
-      <input id="numPersonas" type="number" min="1" class="swal2-input" placeholder="Número de personas">
-      <input id="fechaReserva" type="date" class="swal2-input" placeholder="Fecha de reserva">
+      <input id="numPersonas" type="number" min="1" max="8" class="swal2-input" placeholder="Número de personas">
+      <p style="text-align: center; margin-top: 10px;">Máx 8 personas</p>
     `,
     showCancelButton: true,
     confirmButtonText: 'Reservar',
     cancelButtonText: 'Cancelar',
     preConfirm: () => {
       const numPersonas = document.getElementById('numPersonas').value;
-      const fechaReserva = document.getElementById('fechaReserva').value;
 
-      if (!numPersonas || !fechaReserva) {
-        Swal.showValidationMessage('Todos los campos son obligatorios');
+      if (!numPersonas) {
+        Swal.showValidationMessage('El número de personas es obligatorio');
         return false;
       }
 
-      return { numPersonas, fechaReserva };
+      return { numPersonas };
     }
   }).then((result) => {
     if (result.isConfirmed) {
-      realizarReserva(sesionUser, result.value.numPersonas, result.value.fechaReserva);
+      realizarReserva(sesionUser, result.value.numPersonas);
     }
   });
 };
 
 // Función para enviar la reserva a la API
-const realizarReserva = async (sesionUser, numPersonas, fechaReserva) => {
+const realizarReserva = async (sesionUser, numPersonas) => {
   const reservaData = {
+    email: sesionUser.email, 
     ruta_id: ruta.value.id,
-    cliente_id: sesionUser.id,
     num_personas: parseInt(numPersonas),
-    fecha_reserva: fechaReserva,
   };
 
   try {
@@ -140,7 +138,18 @@ const realizarReserva = async (sesionUser, numPersonas, fechaReserva) => {
       body: JSON.stringify(reservaData)
     });
 
-    const data = await response.json();
+    const text = await response.text(); // Obtener la respuesta como texto
+
+    if (!text) {
+      throw new Error('La respuesta de la API está vacía');
+    }
+
+    let data;
+    try {
+      data = JSON.parse(text); // Intentar parsear la respuesta como JSON
+    } catch (err) {
+      throw new Error(`Error al parsear la respuesta JSON: ${text}`);
+    }
 
     if (!response.ok) {
       throw new Error(data.message || 'Error al realizar la reserva');
