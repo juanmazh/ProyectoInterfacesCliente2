@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <h2 class="text-center mb-4">Mis Reservas</h2>
 
-    <div v-if="reservas.length > 0">
+    <div v-if="reservasFuturas.length > 0">
       <div class="table-responsive">
         <table class="table table-hover table-bordered align-middle">
           <thead class="table-dark">
@@ -17,7 +17,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(reserva, index) in reservas" :key="reserva.reserva_id">
+            <tr v-for="(reserva, index) in reservasFuturas" :key="reserva.reserva_id">
               <td>{{ index + 1 }}</td>
               <td>{{ reserva.nombre_ruta || "Cargando..." }}</td>
               <td>{{ reserva.fecha_ruta || "Cargando..." }}</td>
@@ -40,6 +40,37 @@
 
     <p v-else class="text-center text-muted">No tienes reservas registradas.</p>
 
+    <h2 class="text-center mb-4 mt-5">Historial de Reservas Pasadas</h2>
+
+    <div v-if="reservasPasadas.length > 0">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Ruta</th>
+              <th>Fecha Ruta</th>
+              <th>Hora Ruta</th>
+              <th>Localidad</th>
+              <th>Personas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(reserva, index) in reservasPasadas" :key="reserva.reserva_id">
+              <td>{{ index + 1 }}</td>
+              <td>{{ reserva.nombre_ruta || "Cargando..." }}</td>
+              <td>{{ reserva.fecha_ruta || "Cargando..." }}</td>
+              <td>{{ reserva.hora_ruta || "Cargando..." }}</td>
+              <td>{{ reserva.localidad_ruta || "Cargando..." }}</td>
+              <td>{{ reserva.num_personas }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p v-else class="text-center text-muted">No tienes reservas pasadas.</p>
+
     <p v-if="error" class="text-danger text-center mt-3">{{ error }}</p>
   </div>
 </template>
@@ -48,7 +79,8 @@
 import { ref, onMounted } from "vue";
 import Swal from "sweetalert2";
 
-const reservas = ref([]);
+const reservasFuturas = ref([]);
+const reservasPasadas = ref([]);
 const error = ref(null);
 
 // Obtener el email del usuario desde el localStorage
@@ -106,7 +138,19 @@ const fetchReservas = async () => {
     });
 
     // Esperar a que todas las rutas se obtengan
-    reservas.value = await Promise.all(rutasPromises);
+    const todasReservas = await Promise.all(rutasPromises);
+
+    // Separar reservas futuras y pasadas
+    const now = new Date();
+    reservasFuturas.value = todasReservas.filter(reserva => {
+      const reservaFecha = new Date(`${reserva.fecha_ruta}T${reserva.hora_ruta}`);
+      return reservaFecha >= now;
+    });
+    reservasPasadas.value = todasReservas.filter(reserva => {
+      const reservaFecha = new Date(`${reserva.fecha_ruta}T${reserva.hora_ruta}`);
+      return reservaFecha < now;
+    });
+
   } catch (err) {
     error.value = err.message;
   }
@@ -153,7 +197,7 @@ const cancelarReserva = async (reservaId) => {
       });
 
       // Eliminar la reserva de la lista
-      reservas.value = reservas.value.filter(
+      reservasFuturas.value = reservasFuturas.value.filter(
         (reserva) => reserva.reserva_id !== reservaId
       );
     } else {

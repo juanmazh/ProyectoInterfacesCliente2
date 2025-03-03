@@ -11,6 +11,8 @@ import CrearRuta from '../views/CrearRuta.vue'
 import ReservaView from '../views/ReservaView.vue'
 import GuiaView from '../views/GuiaView.vue'
 import AcercaView from '@/views/AcercaView.vue'
+import BuscarView from '@/views/BuscarView.vue'
+import ValorarView from '@/views/ValorarView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +67,16 @@ const router = createRouter({
       path: '/acerca',
       name: 'acerca',
       component: AcercaView,
+    }, 
+    {
+      path: '/buscar',
+      name: 'buscar',
+      component: BuscarView,
+    }, 
+    {
+      path: '/valorar',
+      name: 'valorar',
+      component: ValorarView,
     }, 
   ],
 })

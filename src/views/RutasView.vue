@@ -66,7 +66,15 @@ const fetchRutas = async () => {
   try {
     const response = await fetch('http://localhost:8008/api.php/rutas');
     if (!response.ok) throw new Error('Error al obtener las rutas');
-    rutas.value = await response.json();
+    const data = await response.json();
+    
+    // Filtrar rutas que ya han pasado
+    const now = new Date();
+    rutas.value = data.filter(ruta => {
+      const rutaFecha = new Date(`${ruta.fecha}T${ruta.hora}`);
+      return rutaFecha >= now;
+    });
+
     ordenarRutas(); // Ordenar las rutas inmediatamente después de cargarlas
   } catch (err) {
     error.value = err.message;

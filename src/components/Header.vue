@@ -20,7 +20,7 @@ function cerrarSesion() {
 
 const handleSearch = () => {
   if (searchQuery.value.trim()) {
-    router.push({ name: 'search', query: { q: searchQuery.value } });
+    router.push({ name: 'buscar', query: { q: searchQuery.value } });
   }
 };
 </script>
