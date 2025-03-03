@@ -6,13 +6,13 @@
       <p>&copy; {{ new Date().getFullYear() }} - Todos los derechos reservados.</p>
       <p class="autor">Creado por Juan Manuel</p>
       <div class="social-icons mt-3">
-        <a href="https://github.com" target="_blank" class="text-white me-3">
+        <a href="https://github.com/juanmazh" target="_blank" class="text-white me-3">
           <i class="bi bi-github"></i>
         </a>
-        <a href="https://linkedin.com" target="_blank" class="text-white me-3">
+        <a href="https://es.linkedin.com/in/juan-manuel-zafra-hern%C3%A1ndez-5b2bb7339" target="_blank" class="text-white me-3">
           <i class="bi bi-linkedin"></i>
         </a>
-        <a href="https://instagram.com" target="_blank" class="text-white">
+        <a href="https://www.instagram.com/lil_capitolio/" target="_blank" class="text-white">
           <i class="bi bi-instagram"></i>
         </a>
       </div>
