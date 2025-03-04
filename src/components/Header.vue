@@ -40,13 +40,13 @@ const handleSearch = () => {
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
             <RouterLink to="/guia" class="nav-link px-2 text-white gestion-usuario">Gestión de guías</RouterLink>
           </template>
-          <template v-if="usuarioAutenticado && (usuarioAutenticado.rol === 'cliente' || usuarioAutenticado.rol === 'guia')">
+          <template v-if="usuarioAutenticado">
             <RouterLink to="/rutas" class="nav-link px-2 text-white gestion-usuario">Descubrir rutas</RouterLink>
           </template>
           <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'cliente'">
             <RouterLink to="/reservas" class="nav-link px-2 text-white gestion-usuario">Mis Rutas</RouterLink>
           </template>
-          <template v-if="usuarioAutenticado && (usuarioAutenticado.rol === 'cliente' || usuarioAutenticado.rol === 'guia')">
+          <template v-if="usuarioAutenticado">
             <RouterLink to="/valorar" class="nav-link px-2 text-white gestion-usuario">Valorar</RouterLink>
           </template>
           <li><RouterLink to="/acerca" class="nav-link px-2 text-white">Acerca de</RouterLink></li>
