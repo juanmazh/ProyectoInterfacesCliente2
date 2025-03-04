@@ -6,43 +6,46 @@
       <!-- Título -->
       <div class="mb-3">
         <label class="form-label">Título</label>
-        <input v-model="ruta.titulo" type="text" class="form-control" required />
+        <input v-model="ruta.titulo" type="text" class="form-control shadow-sm rounded-pill" required />
       </div>
 
       <!-- Localidad -->
       <div class="mb-3">
         <label class="form-label">Localidad</label>
-        <input v-model="ruta.localidad" type="text" class="form-control" required />
+        <input v-model="ruta.localidad" type="text" class="form-control shadow-sm rounded-pill" required />
       </div>
 
       <!-- Descripción -->
       <div class="mb-3">
         <label class="form-label">Descripción</label>
-        <textarea v-model="ruta.descripcion" class="form-control" rows="3" required></textarea>
+        <textarea v-model="ruta.descripcion" class="form-control shadow-sm rounded" rows="3" required></textarea>
       </div>
 
       <!-- Foto (URL) -->
       <div class="mb-3">
         <label class="form-label">URL de la Imagen</label>
-        <input v-model="ruta.foto" type="text" class="form-control" required />
+        <input v-model="ruta.foto" type="text" class="form-control shadow-sm rounded-pill" required />
+        <div v-if="ruta.foto" class="mt-2">
+          <img :src="ruta.foto" alt="Vista previa" class="img-fluid rounded shadow-sm" style="max-height: 200px;" />
+        </div>
       </div>
 
       <!-- Fecha y Hora -->
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label">Fecha</label>
-          <input v-model="ruta.fecha" @change="obtenerGuiasDisponibles" type="date" class="form-control" required />
+          <input v-model="ruta.fecha" @change="obtenerGuiasDisponibles" type="date" class="form-control shadow-sm rounded" required />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Hora</label>
-          <input v-model="ruta.hora" type="time" class="form-control" required />
+          <input v-model="ruta.hora" type="time" class="form-control shadow-sm rounded" required />
         </div>
       </div>
 
       <!-- Guías Disponibles -->
       <div class="mb-3">
         <label class="form-label">Guía</label>
-        <select v-model="ruta.guia_id" class="form-control" required>
+        <select v-model="ruta.guia_id" class="form-control shadow-sm rounded" required>
           <option v-for="guia in guias" :key="guia.id" :value="guia.id">
             {{ guia.nombre }}
           </option>
@@ -52,14 +55,14 @@
       <!-- Ubicación -->
       <div class="mb-3">
         <label class="form-label">Ubicación</label>
-        <input v-model="direccion" @keyup.enter="buscarUbicacion" type="text" class="form-control" placeholder="Buscar dirección y presionar Enter" />
+        <input v-model="direccion" @keyup.enter="buscarUbicacion" type="text" class="form-control shadow-sm rounded" placeholder="Buscar dirección y presionar Enter" />
       </div>
 
       <!-- Mapa -->
-      <div id="map" style="height: 400px; margin-bottom: 20px;"></div>
+      <div id="map" class="mb-4 rounded shadow-sm" style="height: 400px;"></div>
 
       <!-- Botón de Enviar -->
-      <button type="submit" class="btn btn-primary w-100">Crear Ruta</button>
+      <button type="submit" class="btn btn-primary w-100 shadow-lg rounded-pill">Crear Ruta</button>
     </form>
 
     <!-- Mensajes de Error -->
@@ -219,7 +222,6 @@ const crearRuta = async () => {
     });
   }
 };
-
 </script>
 
 <style scoped>
@@ -232,5 +234,23 @@ const crearRuta = async () => {
 #map {
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-control, .btn {
+  border-radius: 50px;
+}
+
+.btn-primary {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.img-fluid {
+  max-height: 200px;
+  object-fit: cover;
 }
 </style>

@@ -8,7 +8,7 @@
         <button
           v-for="ruta in rutasPasadas"
           :key="ruta.id"
-          class="list-group-item list-group-item-action"
+          class="list-group-item list-group-item-action list-group-item-custom"
           @click="seleccionarRuta(ruta)"
         >
           {{ ruta.titulo }} - {{ ruta.fecha }}
@@ -30,9 +30,9 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Comentario</label>
-            <textarea v-model="nuevaValoracion.comentario" class="form-control" rows="3" placeholder="Escribe tu comentario (opcional)"></textarea>
+            <textarea v-model="nuevaValoracion.comentario" class="form-control form-control-custom" rows="3" placeholder="Escribe tu comentario (opcional)"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Enviar Valoración</button>
+          <button type="submit" class="btn btn-primary btn-submit">Enviar Valoración</button>
         </form>
       </div>
       <div v-else class="mt-5">
@@ -152,6 +152,36 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Estilo para los botones de la lista de rutas */
+.list-group-item-custom {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item-custom:hover {
+  background-color: #0069d9;
+  color: white;
+}
+
+/* Estilo para el área de comentarios */
+.form-control-custom {
+  border-radius: 8px;
+  padding: 15px;
+}
+
+/* Estilo para el botón de enviar */
+.btn-submit {
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Estilo para las tarjetas de valoración */
 .valoracion-card {
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);

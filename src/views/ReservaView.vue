@@ -9,8 +9,8 @@
             <tr>
               <th>#</th>
               <th>Ruta</th>
-              <th>Fecha Ruta</th>
-              <th>Hora Ruta</th>
+              <th>Fecha</th>
+              <th>Hora</th>
               <th>Localidad</th>
               <th>Personas</th>
               <th>Acciones</th>
@@ -25,11 +25,8 @@
               <td>{{ reserva.localidad_ruta || "Cargando..." }}</td>
               <td>{{ reserva.num_personas }}</td>
               <td>
-                <button
-                  class="btn btn-danger"
-                  @click="cancelarReserva(reserva.reserva_id)"
-                >
-                  Cancelar
+                <button class="btn btn-danger" @click="cancelarReserva(reserva.reserva_id)">
+                  <i class="bi bi-x-circle"></i> 
                 </button>
               </td>
             </tr>
@@ -49,8 +46,8 @@
             <tr>
               <th>#</th>
               <th>Ruta</th>
-              <th>Fecha Ruta</th>
-              <th>Hora Ruta</th>
+              <th>Fecha</th>
+              <th>Hora</th>
               <th>Localidad</th>
               <th>Personas</th>
             </tr>
@@ -231,11 +228,10 @@ h2 {
 }
 
 .table {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
-.table th,
-.table td {
+.table th, .table td {
   text-align: center;
   vertical-align: middle;
 }
@@ -243,5 +239,9 @@ h2 {
 .btn-danger {
   width: 100%;
   padding: 10px;
+}
+
+.bi-x-circle {
+  margin-right: 8px;
 }
 </style>

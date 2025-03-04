@@ -12,7 +12,6 @@
       <!-- Columna de los detalles -->
       <div class="col-md-4">
         <h4><strong>Localidad:</strong> {{ ruta.localidad }}</h4>
-        <p><strong>Descripción:</strong> {{ ruta.descripcion }}</p>
         <p><strong>Fecha:</strong> {{ ruta.fecha }}</p>
         <p><strong>Hora:</strong> {{ ruta.hora }}</p>
         <p><strong>Guía:</strong> {{ ruta.guia ? ruta.guia.nombre : 'No asignado' }}</p> <!-- Mostrar el guía asignado -->
@@ -24,7 +23,13 @@
       </div>
     </div>
 
-    <!-- Botón para reservar debajo de toda la información -->
+    <!-- Caja de la descripción -->
+     <h4><strong>Descripción</strong></h4>
+    <div class="descripcion-container">
+      <p v-html="ruta.descripcion"></p> <!-- Muestra toda la descripción -->
+    </div>
+
+    <!-- Botón para reservar -->
     <div class="text-center mt-4">
       <button class="btn btn-primary" @click="openReservationModal">
         Reservar esta ruta
@@ -313,43 +318,98 @@ watch(ruta, (newRuta) => {
 </script>
 
 <style scoped>
-.container {
-  max-width: 1200px;
-  background: #f8f9fa;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
-#mapa {
-  width: 100%;
-  height: 250px; /* Haciendo el mapa más pequeño */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.container {
+  max-width: 1200px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.container:hover {
+  transform: translateY(-5px);
 }
 
 h2 {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000000;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.descripcion-container {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.descripcion-container p {
+  font-size: 1.4rem;
+  color: #333;
+  line-height: 1.6;
 }
 
 h4, p {
   font-size: 1.4rem;
+  color: #555;
+}
+
+#mapa {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#mapa:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .img-fluid {
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.row {
+  margin-bottom: 30px;
+}
+
+.col-md-5, .col-md-4, .col-md-3 {
+  padding: 15px;
 }
 
 .btn-primary {
-  font-size: 1.4rem;
-  padding: 10px 20px;
+  font-size: 1.5rem;
+  padding: 12px 25px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.btn-secondary {
-  font-size: 1.2rem;
-  padding: 8px 16px;
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>

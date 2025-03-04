@@ -1,32 +1,5 @@
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const emit = defineEmits(['sesionCerrada']);
-
-const props = defineProps({
-  title: String,
-  usuarioAutenticado: Object
-});
-
-const router = useRouter();
-const searchQuery = ref('');
-
-function cerrarSesion() {
-  localStorage.removeItem('sesionUser'); 
-  emit('sesionCerrada');  
-  router.push({ name: 'home' }); 
-}
-
-const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    router.push({ name: 'buscar', query: { q: searchQuery.value } });
-  }
-};
-</script>
-
 <template>
-  <header class="p-3 bg-dark text-white">
+  <header class="p-3 bg-dark text-white shadow">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-between">
         <RouterLink to="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -72,16 +45,51 @@ const handleSearch = () => {
   </header>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const emit = defineEmits(['sesionCerrada']);
+
+const props = defineProps({
+  title: String,
+  usuarioAutenticado: Object
+});
+
+const router = useRouter();
+const searchQuery = ref('');
+
+function cerrarSesion() {
+  localStorage.removeItem('sesionUser'); 
+  emit('sesionCerrada');  
+  router.push({ name: 'home' }); 
+}
+
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    router.push({ name: 'buscar', query: { q: searchQuery.value } });
+  }
+};
+</script>
+
 <style scoped>
 /* Estilos personalizados */
 .gestion-usuario {
-  border: 2px solid green;
-  padding: 5px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
   border-radius: 5px;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.gestion-usuario:hover {
+  background-color: #0056b3;
 }
 
 header {
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 30%, rgba(0,212,255,0.8) 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link {
@@ -106,5 +114,21 @@ header {
 .btn-outline-light:hover {
   background-color: #fff;
   color: #000;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background-color: #343a40;
+  }
 }
 </style>

@@ -13,28 +13,28 @@
     <!-- Botón 'Crear Ruta' solo visible para usuarios con rol 'guia' -->
     <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
       <RouterLink to="/ruta/crear" class="btn btn-success mb-3">
-        Crear Ruta
+        <i class="bi bi-plus-circle me-2"></i>
       </RouterLink>
     </template>
 
     <ul class="list-group">
-      <li v-for="ruta in rutas" :key="ruta.id" class="list-group-item d-flex align-items-center justify-content-between">
+      <li v-for="ruta in rutas" :key="ruta.id" class="list-group-item d-flex align-items-center justify-content-between mb-3 border-0 rounded shadow-sm">
         <div class="d-flex align-items-center w-100 justify-content-between">
-          <img :src="ruta.imagen || ruta.foto" class="img-thumbnail me-3 img-fluid w-25" alt="Imagen ruta">
+          <img :src="ruta.imagen || ruta.foto" class="img-thumbnail me-3 img-fluid w-25 rounded" alt="Imagen ruta">
           <div class="d-flex flex-column align-items-center justify-content-center w-100 text-center">
             <span class="fw-bold ruta-titulo">{{ ruta.titulo }}</span>
-            <span class="fw-bold">{{ ruta.localidad }}</span>
+            <span class="fw-bold text-muted">{{ ruta.localidad }}</span>
           </div>
           
           <div class="d-flex">
             <router-link :to="`/ruta/${ruta.id}`" class="btn btn-primary me-2">
-              Ver más
+              <i class="bi bi-eye me-1"></i>
             </router-link>
             
             <!-- Botón de eliminación solo visible para usuarios 'admin' -->
             <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'admin'">
               <button @click="eliminarRuta(ruta.id)" class="btn btn-danger">
-                Eliminar
+                <i class="bi bi-trash me-1"></i>
               </button>
             </template>
           </div>
@@ -121,3 +121,76 @@ const eliminarRuta = async (rutaId) => {
 
 fetchRutas();
 </script>
+
+<style scoped>
+/* Mejora de estilo */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.btn-success:hover {
+  background-color: #27ae60;
+  border-color: #27ae60;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Imagen de las rutas */
+.img-thumbnail {
+  max-height: 150px;
+  object-fit: cover;
+}
+
+/* Estilos de la lista */
+.list-group-item {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ruta-titulo {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+li {
+  border-radius: 10px;
+}
+
+/* Mejoras en la selección de orden */
+.form-select {
+  width: auto;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+</style>
