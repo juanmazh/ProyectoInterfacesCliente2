@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="overlay">
       <div class="content">
-        <h1 class="title">Bienvenido a <span class="highlight">FreeTours</span></h1>
+        <h1 class="title">Bienvenido a <span class="highlight">ApatitaTours</span></h1>
         <p class="subtitle">Explora las mejores rutas turísticas con guías expertos, ¡totalmente gratis!</p>
         
         <router-link to="/rutas">
