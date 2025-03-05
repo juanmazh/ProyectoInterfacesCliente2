@@ -135,6 +135,7 @@ async function iniciarSesion() {
                 <span v-else>Iniciar Sesión</span>
               </button>
             </div>
+            <RouterLink to="/register"><p class="small mb-5 pb-lg-2"><a class="text-muted">No tienes cuenta, ¡Registrate ahora!</a></p></RouterLink>
 
             <p v-if="loginError" class="text-danger">{{ loginError }}</p>
           </form>

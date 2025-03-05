@@ -3,7 +3,7 @@
     <h1 class="text-center mb-4">Acerca de Nosotros</h1>
     <div class="row">
       <div class="col-md-6">
-        <h2>Freetours</h2>
+        <h2>ApatitaTours</h2>
         <p>
           Freetours es una empresa dedicada a ofrecer experiencias turísticas únicas y accesibles para todos. Nuestro objetivo es proporcionar tours gratuitos de alta calidad en diversas ciudades, permitiendo a los viajeros descubrir y disfrutar de los lugares más emblemáticos y escondidos.
         </p>
@@ -27,7 +27,7 @@
       <div class="col-md-12 text-center">
         <h3>Juan Manuel Zafra Hernández</h3>
         <p>
-          Soy el creador de Freetours, y mi pasión por los viajes y el turismo me llevó a fundar esta empresa. Mi objetivo es hacer que el turismo sea accesible para todos, ofreciendo experiencias inolvidables y enriquecedoras.
+          Soy el creador de ApatitaTours, y mi pasión por los viajes y el turismo me llevó a fundar esta empresa. Mi objetivo es hacer que el turismo sea accesible para todos, ofreciendo experiencias inolvidables y enriquecedoras.
         </p>
         <img src="https://media.licdn.com/dms/image/v2/D4D03AQG19M9v94OvAg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1732520246847?e=2147483647&v=beta&t=bmXceymlmuUu1659EUb6uPjZMj-p-EnTNHYJFzCdqd8" class="img-fluid rounded-circle" alt="Juan Manuel Zafra Hernández">
       </div>

@@ -110,7 +110,7 @@ async function registrarUsuario() {
               </button>
             </div>
 
-            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">¿Ya tienes una cuenta? Inicia sesión</a></p>
+            <RouterLink to="/login"><p class="small mb-5 pb-lg-2"><a class="text-muted">¿Ya tienes una cuenta? Inicia sesión</a></p></RouterLink>
             <p v-if="registerError" class="text-danger">{{ registerError }}</p>
             <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
 

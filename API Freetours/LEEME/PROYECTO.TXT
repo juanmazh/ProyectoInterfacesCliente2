@@ -24,7 +24,7 @@ PARA NOTA:
     
     - Listar las asignaciones del guía
     - Pasar lista de una ruta como guía
-    - Modificar la reserva para cambiar el número de asistentes
+    - Modificar la reserva para cambiar el número de asistentes X
     - Listar rutas realizadas con opción de valorar
-    - Obtener la media de valoraciones de la ruta cuando se liste la rutas en el guía 
-    - Duplicar ruta en otra fecha
+    - Obtener la media de valoraciones de la ruta cuando se liste la rutas en el guía  X
+    - Duplicar ruta en otra fecha X

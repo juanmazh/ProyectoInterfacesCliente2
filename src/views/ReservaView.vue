@@ -228,14 +228,25 @@ h2 {
 }
 
 .table {
-  font-size: 1.1rem;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #0069d9;
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
 }
 
 .table th, .table td {
-  text-align: center;
-  vertical-align: middle;
+  padding: 15px;
 }
 
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
 .btn-danger {
   width: 100%;
   padding: 10px;

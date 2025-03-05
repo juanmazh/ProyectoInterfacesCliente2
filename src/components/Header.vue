@@ -3,7 +3,7 @@
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-between">
         <RouterLink to="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <h1 class="h4">{{ title }}</h1>
+          <h1 class="h4">ApatitaTours</h1>
         </RouterLink>
 
         <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
@@ -37,8 +37,7 @@
           </template>
           <template v-else>
             <RouterLink to="/login" class="btn btn-outline-light me-2">Iniciar sesión</RouterLink>
-            <RouterLink to="/register" class="btn btn-warning">Registrarse</RouterLink>
-          </template>
+            <RouterLink to="/register" class="btn btn-aquamarine">Registrarse</RouterLink>          </template>
         </div>
       </div>
     </div>
@@ -105,7 +104,16 @@ header {
 .form-control-dark::placeholder {
   color: #adb5bd;
 }
+/*Estilos de botones*/
+.btn-aquamarine {
+  background-color: rgb(4, 176, 119);
+  color: white;
+  border: none;
+}
 
+.btn-aquamarine:hover {
+  background-color: #1d1067;
+}
 .btn-outline-light {
   border-color: #fff;
   color: #fff;
