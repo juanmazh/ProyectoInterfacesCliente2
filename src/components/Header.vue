@@ -1,4 +1,5 @@
 <template>
+  <!--Añadir menú hamburguesa para facilitar responsividad-->
   <header class="p-3 bg-dark text-white shadow">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-between">
