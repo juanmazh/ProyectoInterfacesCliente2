@@ -25,6 +25,7 @@
 </script>
 
 <style scoped>
+/*Cambiar el color de los enlaces que aparecen en el footer */
 .footer {
   background: linear-gradient(135deg, rgba(52, 152, 219, 0.7), rgba(52, 152, 219, 0.1));
   color: white;
