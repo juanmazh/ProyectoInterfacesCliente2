@@ -72,6 +72,7 @@ async function registrarUsuario() {
 </script>
 
 <template>
+  <!--Dar una vuelta al diseño del registro y añadir confirmar password-->
 <section class="vh-100 d-flex justify-content-center align-items-center">
   <div class="container">
     <div class="row justify-content-center">

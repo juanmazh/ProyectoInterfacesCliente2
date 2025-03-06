@@ -28,14 +28,16 @@
         <div class="col-md-6">
           <!--Echar un ojo a esto porque no funciona-->
           <div class="video-container">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/D-F4L5Gfhik?autoplay=1"
-              title="Walking from Myeongdong to Dongdaemun on a summer night | Walking Tour Seoul 4K HDR"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-            </iframe>
+            <video id="video" width="100%" height="315" src="../assets/video/video.mp4"></video>
+            <div class="controles">
+              <button id="play" class="btn btn-primary"><i class="bi bi-play-fill"></i></button>
+              <button id="pausa" class="btn btn-danger"><i class="bi bi-pause-circle"></i></button>
+              <button id="rewind" class="btn btn-secondary"><i class="bi bi-caret-left-fill"></i></button>
+              <button id="forward" class="btn btn-secondary"><i class="bi bi-caret-right-fill"></i></button>
+              <button id="fullscreen" class="btn btn-secondary"><i class="bi bi-fullscreen"></i></button>
+              <input type="range" value="1" min="0" max="1" step="0.1" id="volumen">
+            </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -59,8 +61,8 @@
 </template>
 
 <script setup>
-import Carusel from '@/components/Carusel.vue';
-import { ref, onMounted } from "vue";
+import { ref, onMounted } from 'vue';
+import Carusel from '../components/Carusel.vue';
 
 const valoraciones = ref([]);
 
@@ -74,7 +76,53 @@ const obtenerValoraciones = async () => {
   }
 };
 
-onMounted(obtenerValoraciones);
+onMounted(() => {
+  obtenerValoraciones();
+
+  //Botones del video
+  const video = document.getElementById("video");
+  const btnPlay = document.getElementById("play");
+  const btnPause = document.getElementById("pausa");
+  const volumen = document.getElementById("volumen");
+  const btnFullscreen = document.getElementById("fullscreen");
+  const btnRewind = document.getElementById("rewind");
+  const btnForward = document.getElementById("forward");
+
+  try {
+    if (btnPlay && btnPause && video && volumen && btnFullscreen && btnRewind && btnForward) {
+      btnPlay.addEventListener("click", () => {
+        video.play();
+      });
+      btnPause.addEventListener("click", () => {
+        video.pause();
+      });
+      volumen.addEventListener("change", () => {
+        video.volume = volumen.value;
+      });
+      btnFullscreen.addEventListener("click", () => {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) { /* Firefox */
+          video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { /* IE/Edge */
+          video.msRequestFullscreen();
+        }
+      });
+      btnRewind.addEventListener("click", () => {
+        video.currentTime -= 5;
+      });
+      btnForward.addEventListener("click", () => {
+        video.currentTime += 5;
+      });
+    } else {
+      throw new Error("Elementos del video no encontrados");
+    }
+  } catch (error) {
+    console.error("Error al agregar eventos a los botones del video:", error);
+  }
+});
 </script>
 
 
@@ -94,7 +142,7 @@ onMounted(obtenerValoraciones);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
   border-radius: 20px;
   padding: 20px;
-  margin: 20px;
+  margin: auto;
 }
 
 .overlay {
@@ -189,5 +237,48 @@ onMounted(obtenerValoraciones);
 .valoracion-card:hover {
   transform: scale(1.05);
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+/* Estilos para el video */
+.video-container {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  background: #000;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #14406e;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #3374eb;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+input[type="range"] {
+  width: 100px;
 }
 </style>

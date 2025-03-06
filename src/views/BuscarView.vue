@@ -1,3 +1,4 @@
+<!--Vista despues de buscar-->
 <template>
   <div class="container mt-5">
     <h1 class="text-center mb-4">Resultados de Búsqueda</h1>
@@ -28,7 +29,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const searchQuery = ref(route.query.q || '');
 const rutas = ref([]);
-
+//Llamada a la API para obtener todas las rutas, en proceso de cambiar
 const fetchRutas = async () => {
   try {
     const response = await fetch(`http://localhost:8008/api.php/rutas?search=${searchQuery.value}`);
@@ -48,6 +49,7 @@ watch(() => route.query.q, (newQuery) => {
 </script>
 
 <style scoped>
+/* Estilos para las tarjetas de rutas */
 .container {
   max-width: 1200px;
 }

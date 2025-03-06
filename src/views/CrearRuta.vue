@@ -99,7 +99,7 @@ let map, marker;
 
 // Inicializar el mapa
 onMounted(() => {
-  map = L.map('map').setView([40.4168, -3.7038], 13); // Madrid por defecto
+  map = L.map('map').setView([40.4168, -3.7038], 13); // Madrid por defecto porque es la capital 
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',

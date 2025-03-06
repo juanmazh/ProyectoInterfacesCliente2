@@ -78,6 +78,7 @@ onMounted(fetchRutasAsignadas);
 </script>
 
 <style scoped>
+/* Estilos para la tabla de rutas asignadas */
 .container {
   max-width: 1200px;
   background: #ffffff;

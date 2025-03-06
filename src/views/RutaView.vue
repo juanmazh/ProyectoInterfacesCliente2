@@ -92,7 +92,7 @@ const fetchRuta = async () => {
 
       const guiaData = await guiaResponse.json();
 
-      // Si la API devuelve un array, tomamos solo el guía con el ID correspondiente
+      // Si la API devuelve un array, tomamos solo el guía con el ID necesario
       rutaData.guia = Array.isArray(guiaData) ? guiaData.find(user => user.id == guiaId) || null : guiaData;
     } else {
       rutaData.guia = null;

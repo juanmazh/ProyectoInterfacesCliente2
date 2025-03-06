@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <h2 class="text-center mb-4">Mis Reservas</h2>
-
+    <!--Como se hace la tabla de mis reservas, de manera que se actualiza según los cambios-->
     <div v-if="reservasFuturas.length > 0">
       <div class="table-responsive">
         <table class="table table-hover table-bordered align-middle">
@@ -26,7 +26,7 @@
               <td>{{ reserva.num_personas }}</td>
               <td>
                 <button class="btn btn-danger" @click="cancelarReserva(reserva.reserva_id)">
-                  <i class="bi bi-x-circle"></i> 
+                  <i class="bi bi-x-circle"></i>
                 </button>
               </td>
             </tr>
@@ -38,6 +38,7 @@
     <p v-else class="text-center text-muted">No tienes reservas registradas.</p>
 
     <h2 class="text-center mb-4 mt-5">Historial de Reservas Pasadas</h2>
+    <!--Como se hace la tabla de mis reservas pasadas, de manera que se actualiza según los cambios o rutas pasadas-->
 
     <div v-if="reservasPasadas.length > 0">
       <div class="table-responsive">
@@ -166,7 +167,7 @@ const cancelarReserva = async (reservaId) => {
 
   const apiUrl = `http://localhost:8008/api.php/reservas?id=${reservaId}`;
   console.log("ID de la reserva a cancelar:", reservaId);
-
+  //Estoy adicto al SweetAlert2
   try {
     const confirmacion = await Swal.fire({
       icon: "warning",
@@ -240,13 +241,15 @@ h2 {
   font-weight: 600;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 15px;
 }
 
 .table tbody tr:hover {
   background-color: #f1f1f1;
 }
+
 .btn-danger {
   width: 100%;
   padding: 10px;

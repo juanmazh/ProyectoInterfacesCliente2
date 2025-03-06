@@ -37,6 +37,12 @@
                 <i class="bi bi-trash me-1"></i>
               </button>
             </template>
+             <!-- Botón de duplicar solo visible para usuarios 'guia' -->
+             <template v-if="usuarioAutenticado && usuarioAutenticado.rol === 'guia'">
+              <button @click="duplicarRuta(ruta.id)" class="btn btn-info">
+                <i class="bi bi-clipboard-plus-fill"></i>             
+               </button>
+            </template>
           </div>
         </div>
       </li>
@@ -118,7 +124,54 @@ const eliminarRuta = async (rutaId) => {
     });
   }
 };
+//Mirar el codigo porque no funciona del todo, hay que repasarlo
+const duplicarRuta = async (rutaId) => {
+  try {
+    const { value: fecha } = await Swal.fire({
+      title: 'Especifica la fecha de la ruta duplicada',
+      html: `<input id="fechaRuta" type="date" class="swal2-input" placeholder="Fecha de la ruta">`,
+      showCancelButton: true,
+      confirmButtonText: 'Duplicar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const fechaRuta = document.getElementById('fechaRuta').value;
+        if (!fechaRuta) {
+          Swal.showValidationMessage('La fecha es obligatoria');
+          return false;
+        }
+        const fechaActual = new Date().toISOString().split('T')[0];
+        if (fechaRuta < fechaActual) {
+          Swal.showValidationMessage('La fecha no puede ser anterior a la actual');
+          return false;
+        }
+        return fechaRuta;
+      }
+    });
 
+    if (!fecha) return; // Si el usuario cancela el modal, no se hace nada
+
+    const response = await fetch(`http://localhost:8008/api.php/rutas?id=${rutaId}`);
+    if (!response.ok) throw new Error('Error al duplicar la ruta');
+    const data = await response.json();
+    const rutaDuplicada = { ...data, fecha };
+
+    rutas.value = [...rutas.value, rutaDuplicada];
+    Swal.fire({
+      icon: 'success',
+      title: 'Ruta duplicada',
+      text: 'La ruta ha sido duplicada correctamente.',
+      confirmButtonText: 'Aceptar'
+    });
+  } catch (err) {
+    error.value = err.message;
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Hubo un error al duplicar la ruta. Intenta nuevamente.',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+};
 fetchRutas();
 </script>
 

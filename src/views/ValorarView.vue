@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <h2 class="text-center mb-4">Valorar Ruta</h2>
-
+    <!--Visualizar las rutas que se pueden valorar-->
     <div v-if="rutasPasadas.length > 0">
       <h4 class="text-center mb-4">Selecciona una Ruta para Valorar</h4>
       <div class="list-group mb-5">
@@ -16,7 +16,7 @@
       </div>
     </div>
     <p v-else class="text-center text-muted">No tienes rutas pasadas para valorar.</p>
-
+    <!--Conseguir que si una persona no esta autenticada, pues que estudie y se haga cuenta, primero si tiene, luego que no-->
     <div v-if="rutaSeleccionada">
       <h3 class="text-center">{{ rutaSeleccionada.titulo }}</h3>
       <p class="text-center">{{ rutaSeleccionada.descripcion }}</p>
@@ -42,6 +42,7 @@
 
     <div class="mt-5">
       <h4>Valoraciones</h4>
+      <!--Valoraciones ya hechas por otros usuarios o por el propio-->
       <div class="row">
         <div v-for="valoracion in valoraciones" :key="valoracion.id" class="col-md-6 col-lg-4">
           <div class="card valoracion-card">
@@ -126,7 +127,8 @@ const enviarValoracion = async () => {
       body: JSON.stringify({
         user_id: nuevaValoracion.value.user_id,
         ruta_id: nuevaValoracion.value.ruta_id,
-        estrellas: nuevaValoracion.value.estrellas, // Cambié 'puntuacion' por 'estrellas'
+        estrellas: nuevaValoracion.value.estrellas,
+         // Cambié 'puntuacion' por 'estrellas' porque así se llama en la API, pero en la base de datos guarda puntuacion lo cual me ha quebrado la cabeza
         comentario: nuevaValoracion.value.comentario
       })
     });
