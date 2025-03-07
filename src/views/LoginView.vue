@@ -95,75 +95,97 @@ async function iniciarSesion() {
 
 <template>
     <!--Dar una vuelta al diseño del login-->
+<section class="h-100 bg-white">
+  <div class="container py-5 h-100 mt-3 mb-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card card-registration my-4">
+          <div class="row g-0">
+            <!-- Formulario en la parte izquierda -->
+            <div class="col-xl-6">
+              <div class="card-body p-md-5 text-black">
+                <h3 class="mb-5 text-uppercase">Iniciar Sesión</h3>
 
-<section class="vh-100 d-flex justify-content-center align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-sm-6 text-black">
-        <div class="px-5 text-center">
-          <h1 class="fw-bold mb-3">Iniciar Sesión</h1>
-        </div>
-        <div class="d-flex align-items-center px-5 mt-5 justify-content-center">
-          <form style="width: 23rem;" @submit.prevent="iniciarSesion">
-            <h3 class="fw-normal mb-3 pb-3">Entrar</h3>
+                <!-- Formulario -->
+                <form @submit.prevent="iniciarSesion">
+                  <!-- Campo de Email -->
+                  <div class="form-outline mb-4">
+                    <input 
+                      type="email" 
+                      v-model="loginForm.email" 
+                      class="form-control form-control-lg" 
+                      required
+                    />
+                    <label class="form-label" for="email">Correo Electrónico</label>
+                  </div>
 
-            <div class="form-outline mb-4">
-              <input
-                type="email"
-                v-model="loginForm.email"
-                class="form-control form-control-lg"
-                required
+                  <!-- Campo de Contraseña -->
+                  <div class="form-outline mb-4">
+                    <input 
+                      type="password" 
+                      v-model="loginForm.contraseña" 
+                      class="form-control form-control-lg" 
+                      required
+                    />
+                    <label class="form-label" for="password">Contraseña</label>
+                  </div>
+
+                  <!-- Botón de envío -->
+                  <div class="pt-1 mb-4">
+                    <button
+                      class="btn btn-warning btn-lg btn-block"
+                      type="submit"
+                      :disabled="loading"
+                    >
+                      <span v-if="loading">Cargando...</span>
+                      <span v-else>Iniciar Sesión</span>
+                    </button>
+                  </div>
+
+                  <!-- Enlace para registrarse -->
+                  <RouterLink to="/register">
+                    <p class="small mb-5 pb-lg-2">
+                      <a class="text-muted">No tienes cuenta, ¡Registrate ahora!</a>
+                    </p>
+                  </RouterLink>
+
+                  <!-- Mensaje de error -->
+                  <p v-if="loginError" class="text-danger">{{ loginError }}</p>
+                </form>
+              </div>
+            </div>
+
+            <!-- Imagen en la parte derecha -->
+            <div class="col-xl-6 d-none d-xl-block">
+              <img 
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                alt="Sample photo" 
+                class="img-fluid"
+                style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;" 
               />
-              <label class="form-label">Correo Electrónico</label>
             </div>
-
-            <div class="form-outline mb-4">
-              <input
-                type="password"
-                v-model="loginForm.contraseña"
-                class="form-control form-control-lg"
-                required
-              />
-              <label class="form-label">Contraseña</label>
-            </div>
-
-            <div class="pt-1 mb-4">
-              <button
-                class="btn btn-info btn-lg btn-block"
-                type="submit"
-                :disabled="loading"
-              >
-                <span v-if="loading">Cargando...</span>
-                <span v-else>Iniciar Sesión</span>
-              </button>
-            </div>
-            <RouterLink to="/register"><p class="small mb-5 pb-lg-2"><a class="text-muted">No tienes cuenta, ¡Registrate ahora!</a></p></RouterLink>
-
-            <p v-if="loginError" class="text-danger">{{ loginError }}</p>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 </template>
-
 <style scoped>
 /* Estilos del formulario */
 .vh-100 {
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
   background-color: #f8f9fa;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 40px;
-}
-
-.h1 {
-  font-size: 3em;
-  color: #333;
+  width: 100%;
 }
 
 .form-control {
@@ -209,4 +231,24 @@ async function iniciarSesion() {
   color: #0056b3;
   text-decoration: underline;
 }
+
+/* Asegura que la imagen se mantenga con el tamaño original */
+.col-xl-6.d-none.d-xl-block {
+  display: block;
+  max-width: 100%;
+}
+
+.card-body {
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .col-xl-6 {
+    display: none; /* Oculta la imagen en pantallas pequeñas */
+  }
+  .container {
+    padding: 20px; /* Menos padding en pantallas pequeñas */
+  }
+}
 </style>
+

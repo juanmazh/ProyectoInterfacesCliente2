@@ -29,6 +29,16 @@ async function registrarUsuario() {
     }
 
     const data = await response.json();
+    if (this.registerForm.contraseña !== this.registerForm.confirmarContraseña) {
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: registerError.value,
+        confirmButtonText: 'Aceptar',
+      });
+      this.loading = false;
+      return;
+    }
 
     if (data.status === 'success') {
       // Limpiar formulario y mensaje de error
@@ -72,55 +82,66 @@ async function registrarUsuario() {
 </script>
 
 <template>
-  <!--Dar una vuelta al diseño del registro y añadir confirmar password-->
-<section class="vh-100 d-flex justify-content-center align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-sm-6 text-black">
-
-        <div class="px-5 ms-xl-4 text-center">
-          <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-          <span class="h1 fw-bold mb-0">Registrarse</span>
-        </div>
-
-        <div class="d-flex align-items-center h-custom-3 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5 justify-content-center">
-          <form style="width: 23rem;" @submit.prevent="registrarUsuario">
-
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Crear Cuenta</h3>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="text" id="registerNombre" v-model="registerForm.nombre" class="form-control form-control-lg" />
-              <label class="form-label" for="registerNombre">Nombre</label>
+<section class="h-100 bg-white">
+  <div class="container py-5 h-100 mt-3 mb-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card card-registration my-4">
+          <div class="row g-0">
+            <div class="col-xl-6 d-none d-xl-block">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                alt="Sample photo" class="img-fluid"
+                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
             </div>
+            <div class="col-xl-6">
+              <div class="card-body p-md-5 text-black">
+                <h3 class="mb-5 text-uppercase">Crear Cuenta</h3>
 
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="registerEmail" v-model="registerForm.email" class="form-control form-control-lg" />
-              <label class="form-label" for="registerEmail">Email</label>
+                <form @submit.prevent="registrarUsuario">
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="registerNombre" v-model="registerForm.nombre" class="form-control form-control-lg" />
+                    <label class="form-label" for="registerNombre">Nombre</label>
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="email" id="registerEmail" v-model="registerForm.email" class="form-control form-control-lg" />
+                    <label class="form-label" for="registerEmail">Email</label>
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="password" id="registerPassword" v-model="registerForm.contraseña" class="form-control form-control-lg" />
+                    <label class="form-label" for="registerPassword">Contraseña</label>
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="password" id="registerConfirmPassword" v-model="registerForm.confirmarContraseña" class="form-control form-control-lg" />
+                    <label class="form-label" for="registerConfirmPassword">Confirmar Contraseña</label>
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit" :disabled="loading">
+                      <span v-if="loading">Cargando...</span>
+                      <span v-else>Crear Cuenta</span>
+                    </button>
+                  </div>
+
+                  <router-link to="/login">
+                    <p class="small mb-5 pb-lg-2"><a class="text-muted">¿Ya tienes una cuenta? Inicia sesión</a></p>
+                  </router-link>
+
+                  <p v-if="registerError" class="text-danger">{{ registerError }}</p>
+                  <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
+                </form>
+              </div>
             </div>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="registerPassword" v-model="registerForm.contraseña" class="form-control form-control-lg" />
-              <label class="form-label" for="registerPassword">Contraseña</label>
-            </div>
-
-            <div class="pt-1 mb-4">
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit" :disabled="loading">
-                <!-- Mostrar estado de carga en el botón -->
-                <span v-if="loading">Cargando...</span>
-                <span v-else>Crear Cuenta</span>
-              </button>
-            </div>
-
-            <RouterLink to="/login"><p class="small mb-5 pb-lg-2"><a class="text-muted">¿Ya tienes una cuenta? Inicia sesión</a></p></RouterLink>
-            <p v-if="registerError" class="text-danger">{{ registerError }}</p>
-            <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
-
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
 </template>
 
 <style scoped>
@@ -131,7 +152,7 @@ async function registrarUsuario() {
 .container {
   background-color: #f8f9fa;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 40px;
 }
 

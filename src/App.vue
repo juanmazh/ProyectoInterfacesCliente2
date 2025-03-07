@@ -1,69 +1,52 @@
 <template>
   <div class="layout">
+    <!-- Mostrar el Header solo si no es la ruta de administrador -->
     <Header v-if="!isAdminRoute" :usuarioAutenticado="datosSesion" @sesionCerrada="handleSesionCerrada" title="FreeTours" />
-    <NavBar :datos="datosSesion"/>
-    <RouterView @sesionIniciada="actualizaDatosSesion"></RouterView>
-    <RutasView :usuarioAutenticado="usuario" />
-    <Footer/>
+    <!-- Vista de rutas -->
+    <RouterView @sesionIniciada="actualizaDatosSesion" />
+    <Footer />
   </div>
 </template>
 
-<script>
-import { computed, ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Header from './components/Header.vue';
-import NavBar from './components/NavBar.vue';
 import Footer from './components/Footer.vue';
-import RutasView from './views/RutasView.vue';
 
-export default {
-  components: {
-    Header,
-    NavBar,
-    Footer,
-  },
-  setup() {
-    const route = useRoute();
-    const datosSesion = ref(null);
+// Estado de la sesión del usuario
+const datosSesion = ref(null);
+const route = useRoute();
 
-    const isAdminRoute = computed(() => route.path === '/admin');
+// Verifica si estamos en la ruta de administración
+const isAdminRoute = route.path === '/admin';
 
-    // Esta función actualiza la sesión en la aplicación
-    const actualizaDatosSesion = (datos) => {
-      datosSesion.value = datos;
-      // Almacenar la sesión en localStorage
-      if (datos) {
-        localStorage.setItem("sesionUser", JSON.stringify(datos));
-      } else {
-        localStorage.removeItem("sesionUser");
-      }
-    };
-
-    // Esta función maneja el cierre de sesión
-    const handleSesionCerrada = () => {
-      datosSesion.value = null;
-      localStorage.removeItem("sesionUser");
-    };
-
-    // Obtener la sesión almacenada al cargar la página
-    const storedSesion = localStorage.getItem("sesionUser");
-    if (storedSesion) {
-      try {
-        datosSesion.value = JSON.parse(storedSesion);
-      } catch (error) {
-        console.error("Error al parsear la sesión:", error);
-        localStorage.removeItem("sesionUser");
-      }
-    }
-
-    return {
-      datosSesion,
-      isAdminRoute,
-      actualizaDatosSesion,
-      handleSesionCerrada
-    };
+// Actualiza los datos de la sesión
+const actualizaDatosSesion = (datos) => {
+  datosSesion.value = datos;
+  if (datos) {
+    localStorage.setItem('sesionUser', JSON.stringify(datos));
+  } else {
+    localStorage.removeItem('sesionUser');
   }
 };
+
+// Maneja el cierre de sesión
+const handleSesionCerrada = () => {
+  datosSesion.value = null;
+  localStorage.removeItem('sesionUser');
+};
+
+// Cargar la sesión almacenada en el localStorage directamente al inicializar la aplicación
+const storedSesion = localStorage.getItem('sesionUser');
+if (storedSesion) {
+  try {
+    datosSesion.value = JSON.parse(storedSesion);
+  } catch (error) {
+    console.error('Error al cargar la sesión:', error);
+    localStorage.removeItem('sesionUser');
+  }
+}
 </script>
 
 <style scoped>

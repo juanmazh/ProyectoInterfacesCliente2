@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Swal from 'sweetalert2';
 
 const users = ref([]);
@@ -24,6 +24,9 @@ const fetchUsuarios = async () => {
   }
 };
 
+// Llamada directa para cargar los usuarios al inicializar el script
+fetchUsuarios();
+
 const openEditModal = (user) => {
   selectedUser.value = { ...user };
   showModal.value = true;
@@ -32,6 +35,7 @@ const openEditModal = (user) => {
 const closeEditModal = () => {
   showModal.value = false;
 };
+
 const updateUser = async () => {
   try {
     const updatedRole = {
@@ -127,10 +131,6 @@ const deleteUser = async (userId) => {
     });
   }
 };
-
-onMounted(() => {
-  fetchUsuarios();
-});
 </script>
 
 <template>
