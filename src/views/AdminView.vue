@@ -1,9 +1,10 @@
 <template>
-  <div class="admin-container">
+  <div v-if="esAdmin" class="admin-container">
     <div class="back-button-container">
       <button class="btn" @click="goToIndex">Volver a la vista de usuario</button>
     </div>
     <div class="admin-content">
+<!--Componente admin que muestra los usuarios-->
       <Admin />
     </div>
   </div>
@@ -13,11 +14,26 @@
 import Admin from '../components/Admin.vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import { ref, onMounted } from 'vue';
 
 const router = useRouter();
-
+const esAdmin = ref(false);
+//Proteger la vista de admin de que no entre mediante la URL mi primo que es jacker
+onMounted(() => {
+  const sesion = localStorage.getItem('sesionUser');
+  if (sesion) {
+    const usuario = JSON.parse(sesion);
+    if (usuario.rol === 'admin') {
+      esAdmin.value = true;
+    } else {
+      router.push('/');
+    }
+  } else {
+    router.push('/');
+  }
+});
+//La logica del boton de volver a la vista de usuario, con un sweetalert de confirmacion, chulo eh
 const goToIndex = () => {
-  // Mostrar alerta de confirmación antes de redirigir
   Swal.fire({
     title: '¿Estás seguro?',
     text: "Volverás a la vista de usuario",
@@ -28,7 +44,6 @@ const goToIndex = () => {
     reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
-      // Redirigir si el usuario confirma
       router.push('/');
       Swal.fire(
         'Redirigiendo...',

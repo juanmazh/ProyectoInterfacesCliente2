@@ -36,7 +36,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const rating = ref(props.modelValue || 0); // Si modelValue es null o undefined, se asigna 0
-
+//si ponemos watch, buscamos que el valor de rating cambie y se actualice el valor de modelValue
 watch(rating, (newRating) => {
   if (newRating !== props.modelValue) {
     emit('update:modelValue', newRating); // Emitimos la actualización de la valoración al padre
@@ -51,6 +51,7 @@ const setRating = (value) => {
 </script>
 
 <style scoped>
+/* Estilos para las estrellitas */
 .star-rating {
   display: flex;
   justify-content: center;

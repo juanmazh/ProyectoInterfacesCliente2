@@ -64,7 +64,7 @@ const loading = ref(false);
 const error = ref(null);
 const ordenSeleccionado = ref('titulo');
 
-// Obtener el usuario autenticado del localStorage
+// Obtener el usuario autenticado del localStorage para proteger la vista
 const usuarioAutenticado = JSON.parse(localStorage.getItem('sesionUser')) || null;
 
 const fetchRutas = async () => {
