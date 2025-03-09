@@ -89,8 +89,8 @@ async function registrarUsuario() {
         <div class="card card-registration my-4">
           <div class="row g-0">
             <div class="col-xl-6 d-none d-xl-block">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                alt="Sample photo" class="img-fluid"
+              <img src="https://content.skyscnr.com/m/3fa1c24e3955f94f/original/GettyImages-525508231.jpg?resize=1800px:1800px&quality=100"
+                alt="Sample photo" class="img-fluid img-full"
                 style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
             </div>
             <div class="col-xl-6">
@@ -155,7 +155,11 @@ async function registrarUsuario() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 40px;
 }
-
+.img-full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .h1 {
   font-size: 3em;
   color: #333;

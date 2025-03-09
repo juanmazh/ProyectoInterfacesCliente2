@@ -26,7 +26,7 @@ PARA NOTA:
     - Pasar lista de una ruta como guía
     - Listar rutas realizadas con opción de valorar
     
-    - Modificar la reserva para cambiar el número de asistentes X -
+    - Modificar la reserva para cambiar el número de asistentes done
     - Obtener la media de valoraciones de la ruta cuando se liste la rutas en el guía  X (OMITIR RUTAS DUPLICADAS)
-    - Duplicar ruta en otra fecha X -
-    - PONER CONFIRMAR CONTRASEÑA -
+    - Duplicar ruta en otra fecha 
+    - PONER CONFIRMAR CONTRASEÑA 

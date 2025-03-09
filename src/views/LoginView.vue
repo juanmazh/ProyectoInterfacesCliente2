@@ -158,9 +158,9 @@ async function iniciarSesion() {
             <!-- Imagen en la parte derecha -->
             <div class="col-xl-6 d-none d-xl-block">
               <img 
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                src="https://cdn.inteligenciaviajera.com/wp-content/uploads/2020/03/Sitios-tur%C3%ADsticos-en-el-mundo.jpg"
                 alt="Sample photo" 
-                class="img-fluid"
+                class="img-fluid img-full"
                 style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;" 
               />
             </div>
@@ -237,6 +237,12 @@ async function iniciarSesion() {
   display: block;
   max-width: 100%;
 }
+.img-full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 .card-body {
   padding: 40px;

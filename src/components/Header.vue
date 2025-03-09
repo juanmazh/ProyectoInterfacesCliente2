@@ -106,12 +106,10 @@ header {
   color: white;
   font-size: 1.8rem;
 }
-
 .navbar-toggler-icon {
   display: inline-block;
   cursor: pointer;
 }
-
 /* Menú responsivo */
 .nav-menu {
   display: flex; /* Siempre visible en pantallas grandes */

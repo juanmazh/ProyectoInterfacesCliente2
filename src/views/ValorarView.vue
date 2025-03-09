@@ -54,7 +54,7 @@
               <p class="valoracion-comentario">{{ valoracion.comentario || 'Sin comentario.' }}</p>
               <p class="valoracion-ruta"><strong>Ruta:</strong> {{ valoracion.ruta_titulo }}</p>
             </div>
-          </div>
+            </div>
         </div>
       </div>
       <p v-if="valoraciones.length === 0" class="text-center text-muted">No hay valoraciones disponibles.</p>

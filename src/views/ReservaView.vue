@@ -28,6 +28,9 @@
                 <button class="btn btn-danger" @click="cancelarReserva(reserva.reserva_id)">
                   <i class="bi bi-x-circle"></i>
                 </button>
+                <button class="btn btn-primary" @click="cambiarAsistentes(reserva)">
+    <i class="bi bi-person-plus"></i> 
+  </button>
               </td>
             </tr>
           </tbody>
@@ -210,6 +213,64 @@ const cancelarReserva = async (reservaId) => {
     });
   }
 };
+const cambiarAsistentes = async (reserva) => {
+  const { value: numPersonas } = await Swal.fire({
+    title: 'Cambiar número de asistentes',
+    input: 'number',
+    inputLabel: 'Número de personas',
+    inputValue: reserva.num_personas,
+    inputAttributes: {
+      min: 1,
+      step: 1
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Actualizar',
+    cancelButtonText: 'Cancelar',
+    preConfirm: (inputValue) => {
+      // Verificar si el número es válido
+      if (inputValue < 1) {
+        Swal.showValidationMessage('El número de personas debe ser al menos 1');
+        return false;
+      }
+      return inputValue;
+    }
+  });
+
+  if (numPersonas) {
+    try {
+      // Actualizar la reserva en la base de datos (API)
+      const response = await fetch(`http://localhost:8008/api.php/reservas?id=${reserva.reserva_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ num_personas: numPersonas })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Número de asistentes actualizado',
+          text: 'El número de asistentes ha sido actualizado exitosamente.'
+        });
+
+        // Actualizar el número de asistentes en la vista
+        reserva.num_personas = numPersonas;
+      } else {
+        throw new Error(data.message || 'Error al actualizar el número de asistentes');
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message || 'Hubo un problema al actualizar la reserva.'
+      });
+    }
+  }
+};
+
 
 // Obtener las reservas al cargar el componente
 onMounted(fetchReservas);
@@ -251,7 +312,11 @@ h2 {
 }
 
 .btn-danger {
-  width: 100%;
+  width: 50%;
+  padding: 10px;
+}
+.btn-primary {
+  width: 50%;
   padding: 10px;
 }
 
