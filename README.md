@@ -1,6 +1,7 @@
 # ApatitaTours
 #FreeToursJuanma
-
+La verdad es que he aprendido un monton con este proyecto de clase para enfrentarnos a una realidad aun siendo algo más personal que profesional, pero el tiempo, los imprevistos, el aprender
+Me quedo con una buena sensacion de todo el proyecto.
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
